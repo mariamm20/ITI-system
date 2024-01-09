@@ -17,7 +17,7 @@ namespace myiti
             {
                 if (accounts == null)
                 {
-                    LoadAccounts(@"C:\Users\Lenov\source\repos\myiti\Database\PendingAccounts.json");
+                    LoadAccounts(@"C:\Users\Lenov\source\repos\ITI-system\Database\PendingAccounts.json");
                 }
                 return accounts;
             }
@@ -60,7 +60,7 @@ namespace myiti
                 };
 
                 Accounts.Add(newAccount);
-                SaveAccountsToFile(@"C:\Users\Lenov\source\repos\myiti\Database\PendingAccounts.json");
+                SaveAccountsToFile(@"C:\Users\Lenov\source\repos\ITI-system\Database\PendingAccounts.json");
                 return true;
             }
             else

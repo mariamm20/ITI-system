@@ -1,9 +1,18 @@
 [
   {
-    "Id": 208,
-    "Name": "ddd ddd",
-    "Specialization": "ddd",
-    "Email": "ddd@gmail.com",
+    "Id": 607,
+    "Name": "alaa attia",
+    "Specialization": "backend",
+    "Email": "alaa@gmail.com",
+    "Password": "12345678",
+    "Role": "instuctor",
+    "Approvement": false
+  },
+  {
+    "Id": 194,
+    "Name": "salma yasser",
+    "Specialization": "backend",
+    "Email": "salma@gmail.com",
     "Password": "12345678",
     "Role": "student",
     "Approvement": false
