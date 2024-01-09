@@ -1,0 +1,27 @@
+﻿[
+  {
+    "CourseName": "html",
+    "CourseCode": 501,
+    "TrackCode": 101
+  },
+  {
+    "CourseName": "css",
+    "CourseCode": 502,
+    "TrackCode": 101
+  },
+  {
+    "CourseName": "js",
+    "CourseCode": 503,
+    "TrackCode": 101
+  },
+  {
+    "CourseName": "a+",
+    "CourseCode": 601,
+    "TrackCode": 102
+  },
+  {
+    "CourseName": "ccna",
+    "CourseCode": 602,
+    "TrackCode": 102
+  }
+]

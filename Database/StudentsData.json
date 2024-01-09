@@ -1,0 +1,95 @@
+[
+  {
+    "Track": {
+      "TrackName": "Web Development",
+      "TrackCode": 101
+    },
+    "Courses": [
+      {
+        "CourseName": "html",
+        "CourseCode": 501,
+        "TrackCode": 101
+      },
+      {
+        "CourseName": "css",
+        "CourseCode": 502,
+        "TrackCode": 101
+      },
+      {
+        "CourseName": "js",
+        "CourseCode": 503,
+        "TrackCode": 101
+      }
+    ],
+    "EnrollmentDate": "01/08/2024",
+    "Id": 931,
+    "Name": "jaida Khalel",
+    "Specialization": "ui/ux",
+    "Email": "jaida@gmail.com",
+    "Password": "12345678",
+    "Role": "student",
+    "Approvement": true
+  },
+  {
+    "Track": {
+      "TrackName": "Web Development",
+      "TrackCode": 101
+    },
+    "Courses": [
+      {
+        "CourseName": "html",
+        "CourseCode": 501,
+        "TrackCode": 101
+      },
+      {
+        "CourseName": "css",
+        "CourseCode": 502,
+        "TrackCode": 101
+      },
+      {
+        "CourseName": "js",
+        "CourseCode": 503,
+        "TrackCode": 101
+      }
+    ],
+    "EnrollmentDate": "01/09/2024",
+    "Id": 541,
+    "Name": "fady ali",
+    "Specialization": "graphic design",
+    "Email": "fady@gmail.com",
+    "Password": "asdfghjk",
+    "Role": "student",
+    "Approvement": true
+  },
+  {
+    "Track": {
+      "TrackName": "Web Development",
+      "TrackCode": 101
+    },
+    "Courses": [
+      {
+        "CourseName": "html",
+        "CourseCode": 501,
+        "TrackCode": 101
+      },
+      {
+        "CourseName": "css",
+        "CourseCode": 502,
+        "TrackCode": 101
+      },
+      {
+        "CourseName": "js",
+        "CourseCode": 503,
+        "TrackCode": 101
+      }
+    ],
+    "EnrollmentDate": "01/09/2024",
+    "Id": 115,
+    "Name": "Muslim Saad",
+    "Specialization": "junior devops",
+    "Email": "muslim@gmail.com",
+    "Password": "12345678",
+    "Role": "instructor",
+    "Approvement": true
+  }
+]

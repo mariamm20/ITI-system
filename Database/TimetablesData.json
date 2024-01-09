@@ -1,0 +1,12 @@
+﻿[
+	{
+		"CourseName": "Html",
+		"CourseCode": 101,
+		"TrackName": "Web Development",
+		"InstructorName": "Mona Mohamed",
+		"InstructorID" : 175,
+		"Date": "1/31/2023",
+		"From": "9:00",
+		"To": "11:00"
+	}
+]

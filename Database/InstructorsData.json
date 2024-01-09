@@ -1,0 +1,53 @@
+[
+  {
+    "Salary": 12000,
+    "Courses": [
+      {
+        "CourseName": "html",
+        "CourseCode": 501,
+        "TrackCode": 101
+      }
+    ],
+    "Tracks": [
+      {
+        "TrackName": "Web Development",
+        "TrackCode": 101
+      }
+    ],
+    "Id": 99,
+    "Name": "Ghada Kdous",
+    "Specialization": "Software Engineer",
+    "Email": "ghada@gmail.com",
+    "Password": "asdfghjk",
+    "Role": "Admin",
+    "Approvement": true
+  },
+  {
+    "Salary": 9874,
+    "Courses": [
+      {
+        "CourseName": "html",
+        "CourseCode": 501,
+        "TrackCode": 101
+      },
+      {
+        "CourseName": "css",
+        "CourseCode": 502,
+        "TrackCode": 101
+      }
+    ],
+    "Tracks": [
+      {
+        "TrackName": "Web Development",
+        "TrackCode": 101
+      }
+    ],
+    "Id": 655,
+    "Name": "ola rashwan",
+    "Specialization": "senior ui/ux",
+    "Email": "ola@gmail.com",
+    "Password": "12345678",
+    "Role": "instructor",
+    "Approvement": true
+  }
+]
