@@ -40,12 +40,39 @@
       {
         "TrackName": "Web Development",
         "TrackCode": 101
+      },
+      {
+        "TrackName": "Network",
+        "TrackCode": 102
       }
     ],
     "Id": 655,
     "Name": "ola rashwan",
     "Specialization": "senior ui/ux",
     "Email": "ola@gmail.com",
+    "Password": "12345678",
+    "Role": "instructor",
+    "Approvement": true
+  },
+  {
+    "Salary": 4500,
+    "Courses": [
+      {
+        "CourseName": "js",
+        "CourseCode": 503,
+        "TrackCode": 101
+      }
+    ],
+    "Tracks": [
+      {
+        "TrackName": "Web Development",
+        "TrackCode": 101
+      }
+    ],
+    "Id": 650,
+    "Name": "Noha Adel",
+    "Specialization": "frontend",
+    "Email": "noha@gmail.com",
     "Password": "12345678",
     "Role": "instructor",
     "Approvement": true

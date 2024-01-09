@@ -10,13 +10,15 @@ using System.Threading.Tasks;
 
 namespace myiti
 {
-    internal class Admin : User, IUser
+    internal class Admin : User
     {
         private List<Account> Accounts { get; set; }
         private List<Instructor> Instructors { get; set; }
         private List<Student> Students { get; set; }
         private List<Track> Tracks { get; set; }
         private List<Course> Courses { get; set; }
+        // step 1
+
         public Admin()
         {
             LoadPendinAccountsData();
@@ -24,6 +26,7 @@ namespace myiti
             LoadStudentsData();
             LoadTracksData();
             LoadCoursesData();
+            // step 3
         }
 
 
@@ -61,6 +64,8 @@ namespace myiti
             Courses = JsonConvert.DeserializeObject<List<Course>>(CoursesData);
             return Courses;
         }
+
+        // step 2
         #endregion
 
         #region Admin Login 
@@ -97,17 +102,6 @@ namespace myiti
             }
             return flag;
         }
-        #endregion
-
-        #region Save data method to help in add , edit and delete operations
-        public void SaveDataToJson<T>(string PathOfJsonFile, List<T> ListName, string OperationName, string NameInMessage)
-        {
-            string Data = JsonConvert.SerializeObject(ListName, Formatting.Indented);
-            File.WriteAllText(PathOfJsonFile, Data);
-            Console.WriteLine($"{NameInMessage} {OperationName}ed successfully");
-            Console.WriteLine();
-        }
-
         #endregion
 
         #region View Pending accounts
@@ -218,10 +212,10 @@ namespace myiti
 
                     Instructors.Add(instructor);
 
-                    SaveDataToJson(@"C:\Users\Lenov\source\repos\myiti\Database\InstructorsData.json", Instructors, "add", "Instructor");
+                    SaveDataToJson("InstructorsData.json", Instructors, "add", "Instructor");
 
                     Accounts.Remove(account);
-                    SaveDataToJson(@"C:\Users\Lenov\source\repos\myiti\Database\PendingAccounts.json", Accounts, "remov", "Instructor pending account");
+                    SaveDataToJson("PendingAccounts.json", Accounts, "remov", "Instructor pending account");
 
                     return "Addition process Successed";
                 }
@@ -298,11 +292,11 @@ namespace myiti
                     // Add instructor data to previous data in list 
                     Students.Add(student);
 
-                    SaveDataToJson(@"C:\Users\Lenov\source\repos\myiti\Database\StudentsData.json", Students, "add", "Student");
+                    SaveDataToJson("StudentsData.json", Students, "add", "Student");
 
                     //Remove data from pending accounts
                     Accounts.Remove(account);
-                    SaveDataToJson(@"C:\Users\Lenov\source\repos\myiti\Database\PendingAccounts.json", Accounts, "remov", "Student pending account");
+                    SaveDataToJson("PendingAccounts.json", Accounts, "remov", "Student pending account");
 
                 }
                 else
@@ -373,7 +367,7 @@ namespace myiti
                     }
                     instructor.Approvement = true;
                     Instructors.Add(instructor);
-                    SaveDataToJson(@"C:\Users\Lenov\source\repos\myiti\Database\InstructorsData.json", Instructors, "add", "Instructor");
+                    SaveDataToJson("InstructorsData.json", Instructors, "add", "Instructor");
 
                 }
             }
@@ -467,33 +461,33 @@ namespace myiti
                         {
                             case 1:
                                 item.Id = Convert.ToInt32(value);
-                                SaveDataToJson(@"C:\Users\Lenov\source\repos\myiti\Database\InstructorsData.json", Instructors, "edit", "Instructor");
+                                SaveDataToJson("InstructorsData.json", Instructors, "edit", "Instructor");
                                 flag = true;
 
                                 break;
                             case 2:
                                 item.Name = Convert.ToString(value);
-                                SaveDataToJson(@"C:\Users\Lenov\source\repos\myiti\Database\InstructorsData.json", Instructors, "edit", "Instructor");
+                                SaveDataToJson("InstructorsData.json", Instructors, "edit", "Instructor");
                                 flag = true;
                                 break;
                             case 3:
                                 item.Email = Convert.ToString(value);
-                                SaveDataToJson(@"C:\Users\Lenov\source\repos\myiti\Database\InstructorsData.json", Instructors, "edit", "Instructor");
+                                SaveDataToJson("InstructorsData.json", Instructors, "edit", "Instructor");
                                 flag = true;
                                 break;
                             case 4:
                                 item.Password = Convert.ToString(value);
-                                SaveDataToJson(@"C:\Users\Lenov\source\repos\myiti\Database\InstructorsData.json", Instructors, "edit", "Instructor");
+                                SaveDataToJson("InstructorsData.json", Instructors, "edit", "Instructor");
                                 flag = true;
                                 break;
                             case 5:
                                 item.Specialization = Convert.ToString(value);
-                                SaveDataToJson(@"C:\Users\Lenov\source\repos\myiti\Database\InstructorsData.json", Instructors, "edit", "Instructor");
+                                SaveDataToJson("InstructorsData.json", Instructors, "edit", "Instructor");
                                 flag = true;
                                 break;
                             case 6:
                                 item.Salary = Convert.ToInt32(value);
-                                SaveDataToJson(@"C:\Users\Lenov\source\repos\myiti\Database\InstructorsData.json", Instructors, "edit", "Instructor");
+                                SaveDataToJson("InstructorsData.json", Instructors, "edit", "Instructor");
                                 flag = true;
                                 break;
                             case 7:
@@ -509,7 +503,7 @@ namespace myiti
                                                 {
                                                     item.Tracks.Add(item2);
 
-                                                    SaveDataToJson(@"C:\Users\Lenov\source\repos\myiti\Database\InstructorsData.json", Instructors, "edit", "Instructor");
+                                                    SaveDataToJson("InstructorsData.json", Instructors, "edit", "Instructor");
 
                                                     flag = true;
                                                 }
@@ -535,7 +529,7 @@ namespace myiti
                                         
 
                                     }
-                                    SaveDataToJson(@"C:\Users\Lenov\source\repos\myiti\Database\InstructorsData.json", Instructors, "edit", "Instructor");
+                                    SaveDataToJson("InstructorsData.json", Instructors, "edit", "Instructor");
                                     flag = true;
                                 }
                                 break;
@@ -551,7 +545,7 @@ namespace myiti
                                                 if (!item.Courses.Any(instructorCourse => instructorCourse.CourseCode == ListCoursesEntered))
                                                 {
                                                     item.Courses.Add(item2);
-                                                    SaveDataToJson(@"C:\Users\Lenov\source\repos\myiti\Database\InstructorsData.json", Instructors, "edit", "Instructor");
+                                                    SaveDataToJson("InstructorsData.json", Instructors, "edit", "Instructor");
                                                     flag = true;
 
                                                 }
@@ -576,7 +570,7 @@ namespace myiti
                                         item.Courses.RemoveAll(course => course.CourseCode == ListCoursesEntered);
                                     }
 
-                                    SaveDataToJson(@"C:\Users\Lenov\source\repos\myiti\Database\InstructorsData.json", Instructors, "edit", "Instructor");
+                                    SaveDataToJson("InstructorsData.json", Instructors, "edit", "Instructor");
                                     flag = true;
                                 }
                                 break;
@@ -609,7 +603,7 @@ namespace myiti
                 if (item.Id == id)
                 {
                     Instructors.Remove(item);
-                    SaveDataToJson(@"C:\Users\Lenov\source\repos\myiti\Database\InstructorsData.json", Instructors, "delet", "Instructor");
+                    SaveDataToJson("InstructorsData.json", Instructors, "delet", "Instructor");
                     flag = true;
                     break;
                 }
@@ -668,7 +662,7 @@ namespace myiti
 
                     student.Approvement = true;
                     Students.Add(student);
-                    SaveDataToJson(@"C:\Users\Lenov\source\repos\myiti\Database\StudentsData.json", Students, "add", "student");
+                    SaveDataToJson("StudentsData.json", Students, "add", "student");
 
                 }
             }
@@ -754,28 +748,28 @@ namespace myiti
                         {
                             case 1:
                                 item.Id = Convert.ToInt32(value);
-                                SaveDataToJson(@"C:\Users\Lenov\source\repos\myiti\Database\StudentsData.json", Students, "edit", "student");
+                                SaveDataToJson("StudentsData.json", Students, "edit", "student");
                                 flag = true;
 
                                 break;
                             case 2:
                                 item.Name = Convert.ToString(value);
-                                SaveDataToJson(@"C:\Users\Lenov\source\repos\myiti\Database\StudentsData.json", Students, "edit", "student");
+                                SaveDataToJson("StudentsData.json", Students, "edit", "student");
                                 flag = true;
                                 break;
                             case 3:
                                 item.Email = Convert.ToString(value);
-                                SaveDataToJson(@"C:\Users\Lenov\source\repos\myiti\Database\StudentsData.json", Students, "edit", "student");
+                                SaveDataToJson("StudentsData.json", Students, "edit", "student");
                                 flag = true;
                                 break;
                             case 4:
                                 item.Password = Convert.ToString(value);
-                                SaveDataToJson(@"C:\Users\Lenov\source\repos\myiti\Database\StudentsData.json", Students, "edit", "student");
+                                SaveDataToJson("StudentsData.json", Students, "edit", "student");
                                 flag = true;
                                 break;
                             case 5:
                                 item.Specialization = Convert.ToString(value);
-                                SaveDataToJson(@"C:\Users\Lenov\source\repos\myiti\Database\StudentsData.json", Students, "edit", "student");
+                                SaveDataToJson("StudentsData.json", Students, "edit", "student");
                                 flag = true;
                                 break;
                             case 6:
@@ -792,7 +786,7 @@ namespace myiti
                                             if (item2.TrackCode == item.Track.TrackCode)
                                             {
                                                 item.Courses.Add(item2);
-                                                SaveDataToJson(@"C:\Users\Lenov\source\repos\myiti\Database\StudentsData.json", Students, "edit", "student");
+                                                SaveDataToJson("StudentsData.json", Students, "edit", "student");
                                                 flag = true;
                                             }
                                         }
@@ -804,7 +798,7 @@ namespace myiti
                                 break;
                             case 7:
                                 item.EnrollmentDate = Convert.ToString(value);
-                                SaveDataToJson(@"C:\Users\Lenov\source\repos\myiti\Database\StudentsData.json", Students, "edit", "student");
+                                SaveDataToJson("StudentsData.json", Students, "edit", "student");
                                 flag = true;
                                 break;
 
@@ -835,7 +829,7 @@ namespace myiti
                 if (item.Id == id)
                 {
                     Students.Remove(item);
-                    SaveDataToJson(@"C:\Users\Lenov\source\repos\myiti\Database\StudentsData.json", Students, "delet", "student");
+                    SaveDataToJson("StudentsData.json", Students, "delet", "student");
                     flag = true;
                     break;
                 }
@@ -894,12 +888,12 @@ namespace myiti
                         {
                             case 1:
                                 item.TrackName = Convert.ToString(value);
-                                SaveDataToJson(@"C:\Users\Lenov\source\repos\myiti\Database\TracksData.json", Tracks, "edit", "track");
+                                SaveDataToJson("TracksData.json", Tracks, "edit", "track");
                                 flag = true;
                                 break;
                             case 2:
                                 item.TrackCode = Convert.ToInt32(value);
-                                SaveDataToJson(@"C:\Users\Lenov\source\repos\myiti\Database\TracksData.json", Tracks, "edit", "track");
+                                SaveDataToJson("TracksData.json", Tracks, "edit", "track");
                                 flag = true;
 
                                 break;
@@ -929,7 +923,7 @@ namespace myiti
                 track.TrackCode = TrackCode;
                 track.TrackName = TrackName;
                 Tracks.Add(track);
-                SaveDataToJson(@"C:\Users\Lenov\source\repos\myiti\Database\TracksData.json", Tracks  ,"Add", "Track");
+                SaveDataToJson("TracksData.json", Tracks  ,"Add", "Track");
             }
 
             return flag;
@@ -944,7 +938,7 @@ namespace myiti
                 {
                     Tracks.Remove(item);
                     flag = true;
-                    SaveDataToJson(@"C:\Users\Lenov\source\repos\myiti\Database\TracksData.json", Tracks, "delet", "Track");
+                    SaveDataToJson("TracksData.json", Tracks, "delet", "Track");
                 }
             }
             return flag;
@@ -955,6 +949,7 @@ namespace myiti
 
 
         #endregion
+
 
 
 

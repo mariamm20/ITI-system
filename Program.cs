@@ -881,21 +881,24 @@ namespace ITI_system
                     Console.WriteLine("Welcome Instructor");
                     Console.WriteLine();
                     int counter1 = 3;
-
+                    
                     while (counter1 > 0)
                     {
                         Console.Write("Your Email : ");
                         string email = Console.ReadLine().ToLower().Trim();
                         Console.Write("Your Password : "); // Password Masking is needed
                         string password = Console.ReadLine().ToLower().Trim();
-                        Instructor account1 = new Instructor();
+                        Instructor InstructorAccount = new Instructor();
+                        Instructor holder;
 
-                        bool LoginResult = account1.Login(email, password);
-                        if (LoginResult)
+                        holder= InstructorAccount.Login(email, password);
+                        if (holder != null)
                         {
                             // All implement of instructor 
                             Console.Clear();
                             Console.WriteLine("Instructor Login successfully");
+                            
+                            Console.WriteLine(holder.Id);
 
                             break;
                         }
@@ -928,15 +931,15 @@ namespace ITI_system
                         Console.Write("Your Password : "); // Password Masking is needed
                         string password = Console.ReadLine().ToLower().Trim();
                         Student account1 = new Student();
-
-                        bool LoginResult = account1.Login(email, password);
-                        if (LoginResult)
+                        Student holder;
+                        holder = account1.Login(email, password);
+                        if (holder != null)
                         {
 
                             // All implement of student 
                             Console.Clear();
                             Console.WriteLine("Student Login successfully");
-
+                            Console.WriteLine(holder.Id);
                             break;
                         }
                         else

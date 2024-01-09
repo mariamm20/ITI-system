@@ -9,32 +9,35 @@ using myiti;
 
 namespace ITI_System
 {
-    internal class Student : User , IUser
+    internal class Student : User 
     {
         public Track Track { get; set; }
         public List<Course> Courses { get; set; }
         public string EnrollmentDate { get; set; }
         private List<Student> students { get; set; }
 
-        public void LoadInstructorData()
+        public List<Student> LoadStudentsData()
         {
             string StudentsData = File.ReadAllText(@"C:\Users\Lenov\source\repos\myiti\Database\StudentsData.json");
             students = JsonConvert.DeserializeObject<List<Student>>(StudentsData);
+            return students;
         }
-        public bool Login(string email, string password)
+        public Student Login(string email, string password)
         {
             if (students == null)
             {
-                LoadInstructorData();
+                LoadStudentsData();
             }
             bool flag = false;
+            Student account = null;
             foreach (var student in students)
             {
                 if (student.Email == email)
                 {
                     if (student.Password == password)
                     {
-                        flag = true; break;
+                        flag = true; 
+                        account = student;
 
                     }
                     else
@@ -48,7 +51,14 @@ namespace ITI_System
                     flag = false;
                 }
             }
-            return flag;
+            if (flag)
+            {
+                return account;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         

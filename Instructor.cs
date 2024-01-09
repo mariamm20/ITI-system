@@ -10,7 +10,7 @@ using myiti;
 
 namespace ITI_System
 {
-    internal class Instructor : User , IUser
+    internal class Instructor : User 
     {
         public int Salary { get; set; }
         public List<Course> Courses { get; set; }
@@ -23,20 +23,22 @@ namespace ITI_System
             instructors = JsonConvert.DeserializeObject<List<Instructor>>(InstructorsData);
         }
 
-        public bool Login(string email, string password)
+        public Instructor Login(string email, string password)
         {
             if (instructors == null)
             {
                 LoadInstructorData();
             }
             bool flag = false;
+            Instructor account = null;
             foreach (var instructor in instructors)
             {
                 if (instructor.Email == email)
                 {
                     if (instructor.Password == password)
                     {
-                        flag = true; break;
+                        flag = true;
+                        account =  instructor;
                     }
                     else
                     {
@@ -49,8 +51,16 @@ namespace ITI_System
                     flag = false;
                 }
             }
-            return flag;
 
+            if (flag)
+            {
+                return account;
+            }
+            else
+            {
+                return null;
+            }
+            
 
         }
         
