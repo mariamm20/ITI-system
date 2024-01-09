@@ -55,11 +55,11 @@
     "Approvement": true
   },
   {
-    "Salary": 4500,
+    "Salary": 4000,
     "Courses": [
       {
-        "CourseName": "js",
-        "CourseCode": 503,
+        "CourseName": "html",
+        "CourseCode": 501,
         "TrackCode": 101
       }
     ],
@@ -69,10 +69,33 @@
         "TrackCode": 101
       }
     ],
-    "Id": 650,
-    "Name": "Noha Adel",
-    "Specialization": "frontend",
-    "Email": "noha@gmail.com",
+    "Id": 607,
+    "Name": "Alaa Attia",
+    "Specialization": "backend",
+    "Email": "alaa@gmail.com",
+    "Password": "12345678",
+    "Role": "instructor",
+    "Approvement": true
+  },
+  {
+    "Salary": 8000,
+    "Courses": [
+      {
+        "CourseName": "css",
+        "CourseCode": 502,
+        "TrackCode": 101
+      }
+    ],
+    "Tracks": [
+      {
+        "TrackName": "Web Development",
+        "TrackCode": 101
+      }
+    ],
+    "Id": 960,
+    "Name": "sara ali",
+    "Specialization": "graphic designer",
+    "Email": "sara@gmail.com",
     "Password": "12345678",
     "Role": "instructor",
     "Approvement": true

@@ -17,56 +17,18 @@ namespace myiti
         private List<Student> Students { get; set; }
         private List<Track> Tracks { get; set; }
         private List<Course> Courses { get; set; }
+
         // step 1
 
         public Admin()
         {
-            LoadPendinAccountsData();
-            LoadInstructorsData();
-            LoadStudentsData();
-            LoadTracksData();
-            LoadCoursesData();
-            // step 3
+            Accounts = LoadData<Account>("PendingAccounts.json");
+            Instructors = LoadData<Instructor>("InstructorsData.json");
+            Students = LoadData<Student>("StudentsData.json");
+            Tracks = LoadData<Track>("TracksData.json");
+            Courses = LoadData<Course>("CoursesData.json");
         }
 
-
-        #region Loading Data from json to list
-        private List<Account> LoadPendinAccountsData()
-        {
-            string PendingAccountsData = File.ReadAllText(@"C:\Users\Lenov\source\repos\myiti\Database\PendingAccounts.json");
-            Accounts = JsonConvert.DeserializeObject<List<Account>>(PendingAccountsData);
-            return Accounts;
-        }
-
-        private List<Instructor> LoadInstructorsData()
-        {
-            string InstructorsData = File.ReadAllText(@"C:\Users\Lenov\source\repos\myiti\Database\InstructorsData.json");
-            Instructors = JsonConvert.DeserializeObject<List<Instructor>>(InstructorsData);
-            return Instructors;
-        }
-
-        private List<Student> LoadStudentsData()
-        {
-            string StudentsData = File.ReadAllText(@"C:\Users\Lenov\source\repos\myiti\Database\StudentsData.json");
-            Students = JsonConvert.DeserializeObject<List<Student>>(StudentsData);
-            return Students;
-        }
-
-        private List<Track> LoadTracksData()
-        {
-            string TracksData = File.ReadAllText(@"C:\Users\Lenov\source\repos\myiti\Database\TracksData.json");
-            Tracks = JsonConvert.DeserializeObject<List<Track>>(TracksData);
-            return Tracks;
-        }
-        private List<Course> LoadCoursesData()
-        {
-            string CoursesData = File.ReadAllText(@"C:\Users\Lenov\source\repos\myiti\Database\CoursesData.json");
-            Courses = JsonConvert.DeserializeObject<List<Course>>(CoursesData);
-            return Courses;
-        }
-
-        // step 2
-        #endregion
 
         #region Admin Login 
         public bool Login(string email, string password)

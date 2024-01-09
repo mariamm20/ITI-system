@@ -1,4 +1,4 @@
-[{
+[
   {
     "Track": {
       "TrackName": "Web Development",
@@ -22,12 +22,12 @@
       }
     ],
     "EnrollmentDate": "01/09/2024",
-    "Id": 115,
-    "Name": "Muslim Saad",
-    "Specialization": "junior devops",
-    "Email": "muslim@gmail.com",
+    "Id": 990,
+    "Name": "omar ali",
+    "Specialization": "code innstuctor",
+    "Email": "omar@gmail.com",
     "Password": "12345678",
-    "Role": "instructor",
+    "Role": "student",
     "Approvement": true
   }
 ]

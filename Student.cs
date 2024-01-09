@@ -15,12 +15,12 @@ namespace ITI_System
         public List<Course> Courses { get; set; }
         public string EnrollmentDate { get; set; }
         private List<Student> students { get; set; }
-
-        public List<Student> LoadStudentsData()
+        private static Student loggedInStudent;
+        public void LoadStudentsData()
         {
-            string StudentsData = File.ReadAllText(@"C:\Users\Lenov\source\repos\myiti\Database\StudentsData.json");
+            string StudentsData = File.ReadAllText(@"C:\Users\Lenov\source\repos\ITI-system\Database\StudentsData.json");
             students = JsonConvert.DeserializeObject<List<Student>>(StudentsData);
-            return students;
+            
         }
         public Student Login(string email, string password)
         {
@@ -37,8 +37,9 @@ namespace ITI_System
                     if (student.Password == password)
                     {
                         flag = true; 
+                        loggedInStudent = student;
                         account = student;
-
+                        break;
                     }
                     else
                     {
@@ -59,8 +60,19 @@ namespace ITI_System
             {
                 return null;
             }
-        }
 
-        
+
+
+        }
+        // Get data of student
+        public Student GetLoggedInStudent()
+        {
+            return loggedInStudent;
+        }
+        public void ViewData()
+        {
+            Student stud = GetLoggedInStudent();
+            Console.WriteLine(stud.Courses);
+        }
     }
 }

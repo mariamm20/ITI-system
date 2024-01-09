@@ -8,44 +8,16 @@ namespace myiti
 {
     internal class Account: User
     {
-       
-        private static List<Account> accounts;
+        private List<Account> Accounts { get; set; }
 
-        public static List<Account> Accounts
+            public bool CreateAccount(string name, string specialization, string email, string password, string role)
         {
-            get
+            if (Accounts == null || Accounts.Count == 0)
             {
-                if (accounts == null)
-                {
-                    LoadAccounts(@"C:\Users\Lenov\source\repos\ITI-system\Database\PendingAccounts.json");
-                }
-                return accounts;
+                Accounts = LoadData<Account>("PendingAccounts.json");
             }
-        }
-
-        private static void LoadAccounts(string FilePath)
-        {
-            if (File.Exists(FilePath))
-            {
-                string jsonData = File.ReadAllText(FilePath);
-                accounts = JsonConvert.DeserializeObject<List<Account>>(jsonData);
-            }
-            else
-            {
-                accounts = new List<Account>();
-            }
-        }
-
-        public static void SaveAccountsToFile(string FilePath)
-        {
-            string jsonData = JsonConvert.SerializeObject(accounts, Formatting.Indented);
-            File.WriteAllText(FilePath, jsonData);
-        }
-
-        public bool CreateAccount(string name, string specialization, string email, string password, string role)
-        {
             // Validation on input data of register 
-            if(name !=  null && name.Contains(' ') && specialization != null && email != null && email.Contains('@') && email.Contains('.') && password.Length >= 8 && role != null)
+            if (name !=  null && name.Contains(' ') && specialization != null && email != null && email.Contains('@') && email.Contains('.') && password.Length >= 8 && role != null)
             {
                 Random rnd = new Random();
                 Account newAccount = new Account
@@ -60,7 +32,7 @@ namespace myiti
                 };
 
                 Accounts.Add(newAccount);
-                SaveAccountsToFile(@"C:\Users\Lenov\source\repos\ITI-system\Database\PendingAccounts.json");
+                SaveDataToJson("PendingAccounts.json", Accounts,"Creat","Account");
                 return true;
             }
             else

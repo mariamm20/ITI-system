@@ -899,6 +899,7 @@ namespace ITI_system
                             Console.WriteLine("Instructor Login successfully");
                             
                             Console.WriteLine(holder.Id);
+                            holder.ViewData();
 
                             break;
                         }
@@ -940,6 +941,7 @@ namespace ITI_system
                             Console.Clear();
                             Console.WriteLine("Student Login successfully");
                             Console.WriteLine(holder.Id);
+                            holder.ViewData();
                             break;
                         }
                         else

@@ -16,10 +16,10 @@ namespace ITI_System
         public List<Course> Courses { get; set; }
         public List<Track> Tracks { get; set; }
         private List<Instructor> instructors { get; set; }
-
+        private static Instructor loggedInInstructor;
         private void LoadInstructorData()
         {
-            string InstructorsData = File.ReadAllText(@"C:\Users\Lenov\source\repos\myiti\Database\InstructorsData.json");
+            string InstructorsData = File.ReadAllText(@"C:\Users\Lenov\source\repos\ITI-system\Database\InstructorsData.json");
             instructors = JsonConvert.DeserializeObject<List<Instructor>>(InstructorsData);
         }
 
@@ -38,7 +38,9 @@ namespace ITI_System
                     if (instructor.Password == password)
                     {
                         flag = true;
+                        loggedInInstructor = instructor;
                         account =  instructor;
+                        break;
                     }
                     else
                     {
@@ -63,9 +65,17 @@ namespace ITI_System
             
 
         }
-        
-        // rest of functions 
-       
+
+        // Get data of instructor
+        public Instructor GetLoggedInInstructor()
+        {
+            return loggedInInstructor;
+        }
+        public void ViewData()
+        {
+            Instructor inst = GetLoggedInInstructor();
+            Console.WriteLine(inst.Email);
+        }
 
 
     }

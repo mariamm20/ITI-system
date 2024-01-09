@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using myiti;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,6 +31,34 @@ namespace ITI_System
             File.WriteAllText(fullPath, Data);
             Console.WriteLine($"{NameInMessage} {OperationName}ed successfully");
             Console.WriteLine();
+        }
+
+        #endregion
+
+        #region Read Data From Json File
+        public List<T> LoadData<T>(string path)
+        {
+            string solutionPath = @"C:\Users\Lenov\source\repos\ITI-system\Database\";
+            string fullPath = Path.Combine(solutionPath, path);
+
+            try
+            {
+                string jsonContent = File.ReadAllText(fullPath, Encoding.UTF8);
+                List<T> data = JsonConvert.DeserializeObject<List<T>>(jsonContent);
+                return data;
+            }
+            catch (JsonReaderException jEx)
+            {
+                Console.WriteLine($"JSON reader error: {jEx.Message}");
+                return new List<T>();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred: {ex.Message}");
+                return new List<T>();
+            }
+
+
         }
 
         #endregion
