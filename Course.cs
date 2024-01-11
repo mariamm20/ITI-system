@@ -11,6 +11,7 @@ namespace ITI_System
         public string CourseName { get; set; }
         public int CourseCode { get; set; }
         public int TrackCode { get; set; }
+       
 
     }
 }

@@ -1,5 +1,6 @@
 ﻿using ITI_System;
 using myiti;
+using Newtonsoft.Json;
 using System.Security.Principal;
 
 namespace ITI_system
@@ -1265,12 +1266,122 @@ namespace ITI_system
                         holder= InstructorAccount.Login(email, password);
                         if (holder != null)
                         {
-                            // All implement of instructor 
+                        // All implement of instructor 
+                        Console.WriteLine("Instructor Login successfully");
+                        InstrucctorsMangment:
                             Console.Clear();
-                            Console.WriteLine("Instructor Login successfully");
-                            
-                            Console.WriteLine(holder.Id);
-                            holder.ViewData();
+                            Console.WriteLine("1- View Information ");
+                            Console.WriteLine("2- View courses ");
+                            Console.WriteLine("3- View Time Table ");
+                            Console.WriteLine("4- View students ");
+                            Console.WriteLine("5- Manage Grade ");
+                            Console.WriteLine("6- Report Student ");
+                            Console.WriteLine("Enter your chico");
+                            int choic = GetUserChoice();
+                            switch (choic)
+                            {
+                                case 1:
+                                    Console.Clear();
+                                    Console.WriteLine("The Instructor Information is :");
+                                    holder.ViewInformation();
+                                    Console.WriteLine("press any key to go the instructor mangment");
+                                    Console.ReadKey();
+                                    goto InstrucctorsMangment;
+                                case 2:
+                                    Console.Clear();
+                                    holder.ViewCoursesByInstructor(holder.Id);
+                                    Console.WriteLine("press any key to go the instructor mangment");
+                                    Console.ReadKey();
+                                    goto InstrucctorsMangment;
+                                 case 3:
+                                    Console.Clear();
+                                    holder.ViewTimetable(holder.Id);
+                                    Console.WriteLine("press any key to go the instructor mangment");
+                                    Console.ReadKey();
+                                    goto InstrucctorsMangment;
+                                case 4:
+                                    Console.Clear();
+                                    Console.WriteLine("Enter Track Code To View Student  : ");
+                                    int trackcode = int.Parse(Console.ReadLine());
+                                    holder.ViewStudents(trackcode);
+                                    Console.WriteLine("press any key to go the instructor mangment");
+                                    Console.ReadKey();
+                                    goto InstrucctorsMangment;
+                                case 5:
+                                    GradesMangment:
+                                    Console.Clear();
+                                    Console.WriteLine("1-Add Grade :");
+                                    Console.WriteLine("2-Edit Grade : ");
+                                    Console.WriteLine("3-Back to Main Instructor Mangment  : ");
+                                    Console.WriteLine("Enter your Choice : ");
+                                    int Cho = int.Parse(Console.ReadLine());
+                                    switch (Cho)
+                                    {
+                                        case 1:
+                                            Console.Clear();
+                                            Console.WriteLine("Enter Course Code :");
+                                            int c = int.Parse(Console.ReadLine());
+                                            Course co = new Course();
+                                            co.CourseCode = c;
+                                            Console.WriteLine("Enter student id : ");
+                                            int i = int.Parse(Console.ReadLine());
+                                            Student ss = new Student();
+                                            ss.Id = i;
+                                            Console.WriteLine("Enter Grade : ");
+                                            double grade = double.Parse(Console.ReadLine());
+                                            holder.GiveGrade(ss, co, grade);
+                                            Console.WriteLine("press any key to go the instructor mangment");
+                                            Console.ReadKey();
+                                            goto GradesMangment;
+                                        case 2:
+                                            Console.Clear();
+                                            Console.WriteLine("Enter Course Code :");
+                                            int cc2 = int.Parse(Console.ReadLine());
+                                            Course co2 = new Course();
+                                            co2.CourseCode = cc2;
+                                            Console.WriteLine("Enter student id : ");
+                                            int i2 = int.Parse(Console.ReadLine());
+                                            Student ss2 = new Student();
+                                            ss2.Id = i2;
+                                            Console.WriteLine("Enter Grade : ");
+                                            double grade2 = double.Parse(Console.ReadLine());
+                                            holder.EditGrade(ss2, co2, grade2);
+                                            Console.WriteLine("press any key to go the instructor mangment");
+                                            Console.ReadKey();
+                                            goto GradesMangment;
+                                        case 3:
+                                            Console.ReadKey();
+                                            goto InstrucctorsMangment;
+
+                                        default:
+                                            Console.WriteLine("Invalid choice");
+                                            Console.WriteLine("press any key to go the instructor mangment");
+                                            Console.ReadKey();
+                                            goto InstrucctorsMangment;
+
+
+
+
+                                    }
+                                   
+                                case 6:
+                                    Console.Clear();
+                                    Console.WriteLine("Enter Student Id who you need to report : ");
+                                    int StID = int.Parse(Console.ReadLine());
+
+                                    Console.WriteLine("Enter your Feedback : ");
+                                    string feed = Console.ReadLine();
+                                    holder.ReportStudent(StID, holder.Id, feed);
+                                    Console.WriteLine("press any key to go the instructor mangment");
+                                    Console.ReadKey();
+                                    goto InstrucctorsMangment;
+                                default:
+                                    Console.WriteLine("Invalid Choice ");
+                                    Console.WriteLine("press any key to go the instructor mangment");
+                                    Console.ReadKey();
+                                    goto InstrucctorsMangment;
+
+                            }
 
                             break;
                         }

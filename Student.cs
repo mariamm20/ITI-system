@@ -16,6 +16,7 @@ namespace ITI_System
         public string EnrollmentDate { get; set; }
         private List<Student> students { get; set; }
         private static Student loggedInStudent;
+       
         public void LoadStudentsData()
         {
             string StudentsData = File.ReadAllText(@"C:\Users\Lenov\source\repos\ITI-system\Database\StudentsData.json");
