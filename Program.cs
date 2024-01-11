@@ -822,6 +822,7 @@ namespace ITI_system
 
                                 // Mohamed Part 
                                 case 5:
+                                CourseManagementHome:
                                     Console.Clear();
                                     Console.WriteLine("Courses Management");
                                     Console.WriteLine("--------------------");
@@ -830,10 +831,169 @@ namespace ITI_system
                                     Console.WriteLine("2. Add Course");
                                     Console.WriteLine("3. Edit Course");
                                     Console.WriteLine("4. Delete Course");
+                                    Console.WriteLine("5. Admin Home");
                                     int coursesChoice = GetUserChoice();
+                                    switch (coursesChoice)
+                                    {
+                                        case 1:
+                                            Console.Clear();
+                                            Console.WriteLine("Avialable Courses");
+                                            Console.WriteLine("-----------------");
+                                            Console.Write("Course Name" + "\t");
+                                            Console.Write("Course Code" + "\t");
+                                            Console.Write("Track Code" + "\t");
+                                            Console.WriteLine();
+                                            admin.ViewCourses();
+                                            PressAnyKeyToManageConsoleScreen("return home");
+                                            goto CourseManagementHome;
+                                        case 2:
+                                            Console.Clear();
+                                            Console.WriteLine("Add Course");
+                                            Console.Write("Course Name : ");
+                                            string CourseName = Console.ReadLine();
+                                            Console.Write("Course Code : ");
+                                            int CourseCode = int.Parse(Console.ReadLine());
+                                            Console.Write("Track Code : ");
+                                            int TrackCode = int.Parse(Console.ReadLine());
+                                            bool result = admin.AddCourse(CourseCode, CourseName, TrackCode);
+                                            if (result)
+                                            {
+                                                Console.WriteLine("Course Additon Completed Successfully");
+                                            }
+                                            else
+                                            {
+                                                Console.WriteLine("Course Already Exists OR Enter a valid Track Code !!");
 
+                                            }
+                                            PressAnyKeyToManageConsoleScreen("return home");
+                                            goto CourseManagementHome;
+                                        case 3:
+                                        EditCourse:
+                                            Console.Clear();
+                                            Console.WriteLine("Edit Data Of Course");
+                                            Console.WriteLine("-------------------------");
+                                            Console.WriteLine();
+                                            Console.Write("Code of Course : ");
+                                            int Ccode = int.Parse(Console.ReadLine());
+
+
+                                            Console.WriteLine();
+                                            bool ResultOfViewSpecificCourse = admin.ViewSpecificCourse(Ccode);
+                                            if (ResultOfViewSpecificCourse)
+                                            {
+
+
+                                                Console.WriteLine();
+                                                Console.WriteLine("What do you want to edit?");
+                                                string[] trackDataToEditOptions = { "Course Name","Course code","Track Code" };
+
+                                                for (int i = 0; i < trackDataToEditOptions.Length; i++)
+                                                {
+                                                    Console.WriteLine($"{i + 1}. {trackDataToEditOptions[i]}");
+                                                }
+
+                                                Console.WriteLine();
+                                                Console.WriteLine("0. Return Home");
+                                                int editChoice = GetUserChoice();
+                                                switch (editChoice)
+                                                {
+                                                    case 1:
+                                                        Console.WriteLine("Course Name:");
+                                                        string CourseNameValue = Console.ReadLine();
+                                                        bool resultOfEdit = admin.EditCourse(editChoice, Ccode, CourseNameValue);
+                                                        if (!resultOfEdit)
+                                                        {
+                                                            Console.WriteLine("Invalid Data");
+                                                        }
+                                                        else
+                                                        {
+                                                            PressAnyKeyToManageConsoleScreen("edit the another course data");
+                                                            goto EditCourse;
+
+                                                        }
+                                                        break;
+                                                    case 2:
+                                                        Console.WriteLine("Course Code:");
+                                                        int CourseCodeValue = int.Parse(Console.ReadLine());
+                                                        resultOfEdit = admin.EditCourse(editChoice, Ccode, CourseCodeValue);
+                                                        if (!resultOfEdit)
+                                                        {
+                                                            Console.WriteLine("Invalid Data");
+                                                        }
+                                                        else
+                                                        {
+                                                            PressAnyKeyToManageConsoleScreen("edit the another course data");
+                                                            goto EditCourse;
+                                                        }
+                                                        break;
+                                                    case 3:
+                                                        Console.WriteLine("Track Code:");
+                                                        int TrackCodeValue = int.Parse(Console.ReadLine());
+                                                        resultOfEdit = admin.EditCourse(editChoice, Ccode, TrackCodeValue);
+                                                        if (!resultOfEdit)
+                                                        {
+                                                            Console.WriteLine("Invalid Data");
+                                                        }
+                                                        else
+                                                        {
+                                                            PressAnyKeyToManageConsoleScreen("edit the another course data");
+                                                            goto EditCourse;
+
+                                                        }
+                                                        break;
+                                                    case 0:
+                                                        goto CourseManagementHome;
+                                                    default:
+                                                        Console.WriteLine("Invalid choice");
+                                                        break;
+                                                }
+                                            }
+                                            else
+                                            {
+                                                Console.WriteLine("Invalid Code ");
+                                                PressAnyKeyToManageConsoleScreen("try another code");
+                                                goto EditCourse;
+                                            }
+                                            break;
+                                        case 4:
+                                            Console.Clear();
+                                            Console.WriteLine("Delete data of Course");
+                                            Console.WriteLine("---------------------------");
+                                            Console.WriteLine();
+                                            Console.WriteLine("0. Return home");
+
+                                            Console.Write("Enter the code of Course : ");
+                                            int delCode = int.Parse(Console.ReadLine());
+                                            switch (delCode)
+                                            {
+                                                case 0:
+                                                    goto CourseManagementHome;
+                                                default:
+                                                    bool delResult = admin.DeleteCourse(delCode);
+                                                    if (delResult == false)
+                                                    {
+                                                        Console.WriteLine("Invalid Course Code");
+                                                    }
+                                                    else
+                                                    {
+
+                                                        Console.WriteLine();
+                                                        Console.WriteLine("Press any key to return home");
+                                                        Console.ReadKey();
+                                                        goto CourseManagementHome;
+                                                    }
+                                                    break;
+                                            }
+                                            break;
+                                        case 5:
+                                            goto adminhome;
+                                    }
                                     break;
+
+
+
                                 case 6:
+                                TimetablesManagementHome:
                                     Console.Clear();
                                     Console.WriteLine("Timetables Management");
                                     Console.WriteLine("--------------------");
@@ -842,9 +1002,220 @@ namespace ITI_system
                                     Console.WriteLine("2. Add Timetable");
                                     Console.WriteLine("3. Edit Timetable");
                                     Console.WriteLine("4. Delete Timetable");
+                                    Console.WriteLine("5. Admin Home");
                                     int timetableChoice = GetUserChoice();
+                                    switch (timetableChoice)
+                                    {
+                                        case 1:
+                                            Console.Clear();
+                                            Console.WriteLine("Avialable TimeTables");
+                                            Console.WriteLine("-----------------");
+                                            Console.Write("Course Name" + "\t");
+                                            Console.Write("Course Code" + "\t");
+                                            Console.Write("Track Name" + "\t");
+                                            Console.Write("Instructor Name" + "\t");
+                                            Console.Write("Instructor ID" + "\t");
+                                            Console.Write("Date" + "\t");
+                                            Console.Write("From" + "\t");
+                                            Console.Write("To" + "\t");
+                                            Console.WriteLine();
+                                            admin.ViewTimeTable();
+                                            PressAnyKeyToManageConsoleScreen("return home");
+                                            goto TimetablesManagementHome;
+                                        case 2:
+                                            Console.Clear();
+                                            Console.WriteLine("Add TimeTable");
+                                            Console.Write("Course Code : ");
+                                            int CourseCode = int.Parse(Console.ReadLine());
+                                            Console.Write("Instructor ID : ");
+                                            int InstructorID = int.Parse(Console.ReadLine());
+                                            Console.Write("Date: ");
+                                            string Date = Console.ReadLine();
+                                            Console.Write("From : ");
+                                            string From = Console.ReadLine();
+                                            Console.Write("To : ");
+                                            string To = Console.ReadLine();
+                                            bool result = admin.SetTimetable(CourseCode, InstructorID,Date,From,To );
+                                            if (result)
+                                            {
+                                                Console.WriteLine("Course Additon Completed Successfully");
+                                            }
+                                            else
+                                            {
+                                                Console.WriteLine(" Enter a valid Course Code OR Instructor ID !!");
 
+                                            }
+                                            PressAnyKeyToManageConsoleScreen("return home");
+                                            goto TimetablesManagementHome;
+                                        case 3:
+                                        EditTimeTable:
+                                            Console.Clear();
+                                            Console.WriteLine("Edit Data Of TimeTable");
+                                            Console.WriteLine("-------------------------");
+                                            Console.WriteLine();
+                                            Console.Write("Code of Course : ");
+                                            int Ccode = int.Parse(Console.ReadLine());
+                                            Console.Write("ID of Instrructor : ");
+                                            int IId = int.Parse(Console.ReadLine());
+                                            Console.WriteLine();
+                                            bool ResultOfViewSpecificCourse = admin.ViewSpecificTimeTable(Ccode,IId);
+                                            if (ResultOfViewSpecificCourse)
+                                            {
+                                                Console.WriteLine();
+                                                Console.WriteLine("What do you want to edit?");
+                                                string[] trackDataToEditOptions = { "Course code", "Instructor ID","Track Name","Date","From","To" };
+
+                                                for (int i = 0; i < trackDataToEditOptions.Length; i++)
+                                                {
+                                                    Console.WriteLine($"{i + 1}. {trackDataToEditOptions[i]}");
+                                                }
+                                                Console.WriteLine();
+                                                Console.WriteLine("0. Return Home");
+                                                int editChoice = GetUserChoice();
+                                                switch (editChoice)
+                                                {
+                                                    
+                                                    case 1:
+                                                        Console.WriteLine("Course Code:");
+                                                        int CourseCodeValue = int.Parse(Console.ReadLine());
+                                                        bool resultOfEdit = admin.EditTimeTable(editChoice,IId, Ccode, CourseCodeValue);
+                                                        if (!resultOfEdit)
+                                                        {
+                                                            Console.WriteLine("Invalid Data");
+                                                        }
+                                                        else
+                                                        {
+                                                            PressAnyKeyToManageConsoleScreen("edit another TimeTable data");
+                                                            goto TimetablesManagementHome;
+                                                        }
+                                                        break;
+                                                    case 2:
+                                                        Console.WriteLine("Instructor ID :");
+                                                        int InstructorIDValue = int.Parse(Console.ReadLine());
+                                                        resultOfEdit = admin.EditTimeTable(editChoice,IId, Ccode, InstructorIDValue);
+                                                        if (!resultOfEdit)
+                                                        {
+                                                            Console.WriteLine("Invalid Data");
+                                                        }
+                                                        else
+                                                        {
+                                                            PressAnyKeyToManageConsoleScreen("edit another TimeTable data");
+                                                            goto TimetablesManagementHome;
+
+                                                        }
+                                                        break;
+                                                    case 3:
+                                                        Console.WriteLine("Track Name:");
+                                                        string TrackNameValue = Console.ReadLine();
+                                                        resultOfEdit = admin.EditTimeTable(editChoice,IId, Ccode, TrackNameValue);
+                                                        if (!resultOfEdit)
+                                                        {
+                                                            Console.WriteLine("Invalid Data");
+                                                        }
+                                                        else
+                                                        {
+                                                            PressAnyKeyToManageConsoleScreen("edit another TimeTable data");
+                                                            goto TimetablesManagementHome;
+
+                                                        }
+                                                        break;
+                                                    case 4:
+                                                        Console.WriteLine("Date:");
+                                                        string DateValue = Console.ReadLine();
+                                                        resultOfEdit = admin.EditTimeTable(editChoice, IId, Ccode, DateValue);
+                                                        if (!resultOfEdit)
+                                                        {
+                                                            Console.WriteLine("Invalid Data");
+                                                        }
+                                                        else
+                                                        {
+                                                            PressAnyKeyToManageConsoleScreen("edit another TimeTable data");
+                                                            goto TimetablesManagementHome;
+
+                                                        }
+                                                        break;
+                                                    case 5:
+                                                        Console.WriteLine("From:");
+                                                        string FromValue = Console.ReadLine();
+                                                        resultOfEdit = admin.EditTimeTable(editChoice, IId, Ccode, FromValue);
+                                                        if (!resultOfEdit)
+                                                        {
+                                                            Console.WriteLine("Invalid Data");
+                                                        }
+                                                        else
+                                                        {
+                                                            PressAnyKeyToManageConsoleScreen("edit another TimeTable data");
+                                                            goto TimetablesManagementHome;
+
+                                                        }
+                                                        break;
+                                                    case 6:
+                                                        Console.WriteLine("To:");
+                                                        string ToValue = Console.ReadLine();
+                                                        resultOfEdit = admin.EditTimeTable(editChoice, IId, Ccode, ToValue);
+                                                        if (!resultOfEdit)
+                                                        {
+                                                            Console.WriteLine("Invalid Data");
+                                                        }
+                                                        else
+                                                        {
+                                                            PressAnyKeyToManageConsoleScreen("edit another TimeTable data");
+                                                            goto TimetablesManagementHome;
+
+                                                        }
+                                                        break;
+                                                    case 0:
+                                                        goto TimetablesManagementHome;
+                                                    default:
+                                                        Console.WriteLine("Invalid choice");
+                                                        break;
+                                                }
+                                            }
+                                            else
+                                            {
+                                                Console.WriteLine("Invalid Code ");
+                                                PressAnyKeyToManageConsoleScreen("try another code");
+                                                goto EditTimeTable;
+                                            }
+                                            break;
+                                        case 4:
+                                            Console.Clear();
+                                            Console.WriteLine("Delete data of TimeTable");
+                                            Console.WriteLine("---------------------------");
+                                            Console.WriteLine();
+                                            Console.WriteLine("0. Return home");
+
+                                            Console.Write("Enter the code of Course : ");
+                                            int delCode = int.Parse(Console.ReadLine());
+                                            Console.Write("Enter the id of Instructor : ");
+                                            int delid = int.Parse(Console.ReadLine());
+                                            switch (delCode)
+                                            {
+                                                case 0:
+                                                    goto TimetablesManagementHome;
+                                                default:
+                                                    bool delResult = admin.DeleteTimetable(delid,delCode);
+                                                    if (delResult == false)
+                                                    {
+                                                        Console.WriteLine("Invalid Course Code");
+                                                    }
+                                                    else
+                                                    {
+
+                                                        Console.WriteLine();
+                                                        Console.WriteLine("Press any key to return home");
+                                                        Console.ReadKey();
+                                                        goto TimetablesManagementHome;
+                                                    }
+                                                    break;
+                                            }
+                                            break;
+                                        case 5:
+                                            goto adminhome;
+                                    }
                                     break;
+
+                                    
                                 case 7:
                                     Console.Clear();
                                     Console.WriteLine("Feedbacks Management");

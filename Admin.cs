@@ -1,12 +1,17 @@
 ﻿using ITI_System;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+
 
 namespace myiti
 {
@@ -17,6 +22,7 @@ namespace myiti
         private List<Student> Students { get; set; }
         private List<Track> Tracks { get; set; }
         private List<Course> Courses { get; set; }
+        private List<Timetable> Timetables { get; set; }
 
         // step 1
 
@@ -27,6 +33,7 @@ namespace myiti
             Students = LoadData<Student>("StudentsData.json");
             Tracks = LoadData<Track>("TracksData.json");
             Courses = LoadData<Course>("CoursesData.json");
+            Timetables = LoadData<Timetable>("TimetablesData.json");
         }
 
 
@@ -487,8 +494,8 @@ namespace myiti
                                     foreach (var ListTracksEntered in tracksToRemove)//101
                                     {
                                         item.Tracks.RemoveAll(track => track.TrackCode == ListTracksEntered);
-                                        item.Courses.RemoveAll(course =>  course.TrackCode == ListTracksEntered);
-                                        
+                                        item.Courses.RemoveAll(course => course.TrackCode == ListTracksEntered);
+
 
                                     }
                                     SaveDataToJson("InstructorsData.json", Instructors, "edit", "Instructor");
@@ -740,23 +747,23 @@ namespace myiti
                                 item.Courses.Clear();
                                 foreach (var track in Tracks)
                                 {
-                                    
-                                        item.Track = track;
-                                        
-                                        foreach (var item2 in Courses)
+
+                                    item.Track = track;
+
+                                    foreach (var item2 in Courses)
+                                    {
+                                        if (item2.TrackCode == item.Track.TrackCode)
                                         {
-                                            if (item2.TrackCode == item.Track.TrackCode)
-                                            {
-                                                item.Courses.Add(item2);
-                                                SaveDataToJson("StudentsData.json", Students, "edit", "student");
-                                                flag = true;
-                                            }
+                                            item.Courses.Add(item2);
+                                            SaveDataToJson("StudentsData.json", Students, "edit", "student");
+                                            flag = true;
                                         }
-                                    
+                                    }
+
                                     break;
                                 }
-                                
-                                
+
+
                                 break;
                             case 7:
                                 item.EnrollmentDate = Convert.ToString(value);
@@ -859,8 +866,8 @@ namespace myiti
                                 flag = true;
 
                                 break;
-                            default: 
-                                flag = false; 
+                            default:
+                                flag = false;
                                 break;
 
                         }
@@ -869,12 +876,12 @@ namespace myiti
             }
             return flag;
         }
-        public bool AddTrack(int TrackCode ,string TrackName)
+        public bool AddTrack(int TrackCode, string TrackName)
         {
             bool flag = true;
-            foreach(var item in Tracks)
+            foreach (var item in Tracks)
             {
-                if(item.TrackCode== TrackCode)
+                if (item.TrackCode == TrackCode)
                 {
                     flag = false; break;
                 }
@@ -885,7 +892,7 @@ namespace myiti
                 track.TrackCode = TrackCode;
                 track.TrackName = TrackName;
                 Tracks.Add(track);
-                SaveDataToJson("TracksData.json", Tracks  ,"Add", "Track");
+                SaveDataToJson("TracksData.json", Tracks, "Add", "Track");
             }
 
             return flag;
@@ -894,9 +901,9 @@ namespace myiti
         public bool DeleteTrack(int TrackCode)
         {
             bool flag = false;
-            foreach(var item in Tracks.ToList())
+            foreach (var item in Tracks.ToList())
             {
-                if(item.TrackCode == TrackCode)
+                if (item.TrackCode == TrackCode)
                 {
                     Tracks.Remove(item);
                     flag = true;
@@ -911,6 +918,334 @@ namespace myiti
 
 
         #endregion
+
+
+        #region Course CRUD operations 
+        public void ViewCourses()
+        {
+            foreach (var item in Courses)
+            {
+                Console.Write(item.CourseName + "\t\t");
+                Console.Write(item.CourseCode + "\t\t");
+                Console.Write(item.TrackCode + "\t\t");
+                Console.WriteLine();
+            }
+        }
+        public bool ViewSpecificCourse(int CourseCode)
+        {
+            bool flag = false;
+            foreach (var Course in Courses)
+            {
+                if (Course.CourseCode == CourseCode)
+                {
+                    Console.WriteLine();
+                    Console.WriteLine($"Data of Course of code {CourseCode}");
+                    Console.WriteLine("--------------------------------");
+                    Console.Write("Course Name" + "\t");
+                    Console.Write("Course Code" + "\t");
+                    Console.Write("Track Code" + "\t");
+                    Console.WriteLine();
+                    Console.Write(Course.CourseName + "\t");
+                    Console.Write(Course.CourseCode + "\t");
+                    Console.Write(Course.TrackCode + "\t");
+                    Console.WriteLine();
+                    flag = true;
+                    break;
+                }
+            }
+            return flag;
+        }
+        public bool EditCourse<T>(int EditChoice, int CourseCode, T value)
+        {
+            bool flag = false;
+            if (value != null && CourseCode != null)
+            {
+                foreach (var item in Courses)
+                {
+                    if (item.CourseCode == CourseCode)
+                    {
+                        switch (EditChoice)
+                        {
+                            case 1:
+                                item.CourseName = Convert.ToString(value);
+                                SaveDataToJson("CoursesData.json", Courses, "edit", "Courses Name");
+                                flag = true;
+                                break;
+                            case 2:
+                                item.CourseCode = Convert.ToInt32(value);
+                                SaveDataToJson("CoursesData.json", Courses, "edit", "Courses Code");
+                                flag = true;
+                                break;
+                            case 3:
+                                foreach (var Track in Tracks)
+                                {
+                                    if (Convert.ToInt32(value) == Track.TrackCode)
+                                    {
+                                        item.TrackCode = Convert.ToInt32(value);
+                                        SaveDataToJson("CoursesData.json", Courses, "edit", "Track Code");
+                                        flag = true;
+                                        break;
+                                    }
+                                }
+                                break;
+                            default:
+                                flag = false;
+                                break;
+                        }
+                    }
+                }
+            }
+            return flag;
+        }
+        public bool AddCourse (int CourseCode, string CourseName ,int TrackCode)
+        {
+            bool flag = true;
+            foreach (var item in Courses)
+            {
+                if (item.CourseCode == CourseCode)
+                {
+                    flag = false; 
+                    break;
+                }
+            }
+            if (flag)
+            {
+                Course course = new Course();
+                course.CourseCode = CourseCode;
+                course.CourseName = CourseName;
+                foreach (var Track in Tracks)
+                {
+                    if (TrackCode == Track.TrackCode)
+                    {
+                        course.TrackCode = TrackCode;
+                        flag = true;
+                        break;
+                    }
+                    else
+                    {
+                        flag = false;
+                    }
+                }
+                Courses.Add(course);
+                SaveDataToJson("CoursesData.json",Courses, "Add", "Course");
+            }
+
+            return flag;
+        }
+        public bool DeleteCourse(int CourseCode)
+        {
+            bool flag = false;
+            foreach (var item in Courses.ToList())
+            {
+                if (item.CourseCode == CourseCode)
+                {
+                    Courses.Remove(item);
+                    flag = true;
+                    SaveDataToJson("CoursesData.json", Courses, "delet", "Course");
+                    break;
+                }
+            }
+            return flag;
+        }
+        #endregion
+
+        #region  TimeTable CRUD operations
+        public void ViewTimeTable()
+        {
+            foreach (var timetable in Timetables)
+            {
+                Console.Write(timetable.CourseName + "\t");
+                Console.Write(timetable.CourseCode + "\t");
+                Console.Write(timetable.TrackName + "\t");
+                Console.Write(timetable.InstructorName + "\t");
+                Console.Write(timetable.InstructorID + "\t");
+                Console.Write(timetable.Date + "\t");
+                Console.Write(timetable.From + "\t");
+                Console.Write(timetable.To + "\t");
+                Console.WriteLine();
+            }
+        }
+        public bool ViewSpecificTimeTable(int CourseCode,int InstructorID)
+        {
+            bool flag = false;
+            foreach (var timetable in Timetables)
+            {
+                if (timetable.CourseCode == CourseCode && timetable.InstructorID == InstructorID)
+                {
+                    Console.WriteLine();
+                    Console.WriteLine($"Data of TimeTable for CourseCode = {CourseCode} & InstructorID = {InstructorID}");
+                    Console.WriteLine("--------------------------------");
+                    Console.Write("Course Name" + "\t");
+                    Console.Write("Course Code" + "\t");
+                    Console.Write("Track Name" + "\t");
+                    Console.Write("Instructor Name" + "\t");
+                    Console.Write("Instructor ID" + "\t");
+                    Console.Write("Date" + "\t");
+                    Console.Write("From" + "\t");
+                    Console.Write("To" + "\t");
+                    Console.WriteLine();
+                    Console.Write(timetable.CourseName + "\t");
+                    Console.Write(timetable.CourseCode + "\t");
+                    Console.Write(timetable.TrackName + "\t");
+                    Console.Write(timetable.InstructorName + "\t");
+                    Console.Write(timetable.InstructorID + "\t");
+                    Console.Write(timetable.Date + "\t");
+                    Console.Write(timetable.From + "\t");
+                    Console.Write(timetable.To + "\t");
+                    Console.WriteLine();
+                    flag = true;
+                    break;
+                }
+            }
+            return flag;
+        }
+        public bool  SetTimetable(int CourseCode,int InstructorID,string Date,string From,string To)
+        {
+            bool flag = false;
+            foreach (var instructor in Instructors)
+            {
+                if (instructor.Id == InstructorID)
+                {
+                    for (int  i = 0; i < instructor.Courses.Count; i++)
+                    {
+                        if (instructor.Courses[i].CourseCode == CourseCode)
+                        {
+                            Timetable timetable = new Timetable();
+                            foreach (var course in Courses)
+                            {
+                                if (course.CourseCode == CourseCode)
+                                {
+                                    timetable.CourseCode = CourseCode;
+                                    timetable.CourseName = course.CourseName;
+                                }
+                            }
+                            foreach (var course in Courses)
+                            {
+                                if (course.CourseCode == CourseCode)
+                                {
+                                    foreach (var track in Tracks)
+                                    {
+                                        if (track.TrackCode == course.TrackCode)
+                                        {
+                                            timetable.TrackName = track.TrackName;
+                                        }
+                                    }
+                                }
+                            }
+                            foreach (var inst in Instructors)
+                            {
+                                if (inst.Id == InstructorID)
+                                {
+                                    timetable.InstructorID = InstructorID;
+                                    timetable.InstructorName = inst.Name;
+                                }
+                            }
+                            timetable.Date = Convert.ToDateTime(Date).ToString("dd/MM/yyyy");
+                            timetable.From = Convert.ToDateTime(From).ToString("hh:mm tt");
+                            timetable.To = Convert.ToDateTime(To).ToString("hh:mm tt");
+                            Timetables.Add(timetable);
+                            SaveDataToJson("TimetablesData.json", Timetables, "Add", "TimeTable");
+                            flag = true;
+                        }
+                    }
+                }
+            }
+            
+            return flag;
+        }
+        public bool EditTimeTable<T>(int EditChoice,int InstructorID, int CourseCode, T value)
+        {
+            bool flag = false;
+            if (value != null && CourseCode != null && InstructorID != null)
+            {
+                foreach (var timetable in Timetables)
+                {
+                    if (timetable.InstructorID == InstructorID && timetable.CourseCode == CourseCode)
+                    {
+                        switch (EditChoice)
+                        {
+                            case 1:
+                                foreach (var course in Courses)
+                                {
+                                    if (Convert.ToInt32(value) == course.CourseCode)
+                                    {
+                                        timetable.CourseCode = Convert.ToInt32(value);
+                                        timetable.CourseName = course.CourseName;
+                                        SaveDataToJson("TimetablesData.json",Timetables, "edit", "Course Name & Course Id ");
+                                        flag = true;
+                                        break;
+                                    }
+                                }
+                                break;
+                            case 2:
+                                foreach (var instructor in Instructors)
+                                {
+                                    if (Convert.ToInt32(value) == instructor.Id)
+                                    {
+                                        timetable.InstructorID = Convert.ToInt32(value);
+                                        timetable.InstructorName = instructor.Name;
+                                        SaveDataToJson("TimetablesData.json", Timetables, "edit", "Instructor Name & Course Id ");
+                                        flag = true;
+                                        break;
+                                    }
+                                }
+                                break;
+                            case 3:
+                                foreach (var track in Tracks)
+                                {
+                                    if (Convert.ToString(value) == track.TrackName)
+                                    {
+                                        timetable.TrackName = Convert.ToString(value);
+                                        SaveDataToJson("TimetablesData.json", Timetables, "edit", "Track Name ");
+                                        flag = true;
+                                        break;
+                                    }
+                                }
+                                break;
+                            case 4:
+                                timetable.Date = Convert.ToDateTime(value).ToString("dd/MM/yyyy");
+                                SaveDataToJson("TimetablesData.json", Timetables, "edit", "Lecture Date ");
+                                flag = true;
+                                break;
+                            case 5:
+                                timetable.From = Convert.ToDateTime(value).ToString("hh:mm tt");
+                                SaveDataToJson("TimetablesData.json", Timetables, "edit", "Lecture Start Time ");
+                                flag = true;
+                                break;
+                            case 6:
+                                timetable.To = Convert.ToDateTime(value).ToString("hh:mm tt");
+                                SaveDataToJson("TimetablesData.json", Timetables, "edit", "Lecture End Time ");
+                                flag = true;
+                                break;
+                            default:
+                                flag = false;
+                                break;
+                        }
+                    }
+                }
+            }
+            return flag;
+        }
+        public bool DeleteTimetable(int InstructorID, int CourseCode)
+        {
+            bool flag = false;
+            if ( CourseCode != null && InstructorID != null)
+            {
+                foreach (var timetable in Timetables.ToList())
+                {
+                    if (timetable.CourseCode == CourseCode && timetable.InstructorID == InstructorID)
+                    {
+                        Timetables.Remove(timetable);
+                        SaveDataToJson("TimetablesData.json", Timetables, "delet", "TimeTable");
+                        flag = true;
+                        break;
+                    }
+                }
+            }
+            return flag;
+        }
+        #endregion
+
 
 
 

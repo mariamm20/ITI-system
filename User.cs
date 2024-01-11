@@ -23,7 +23,7 @@ namespace ITI_System
         #region Save data method to help in add , edit and delete operations
         public void SaveDataToJson<T>(string relativePath, List<T> ListName, string OperationName, string NameInMessage)
         {
-            string solutionPath = @"C:\Users\Lenov\source\repos\ITI-system\Database\";
+            string solutionPath = @"D:\OneDrive - Alexandria University\Desktop\.NET\C#\OopProject2\Database\";
 
             string fullPath = Path.Combine(solutionPath, relativePath);
 
@@ -38,7 +38,7 @@ namespace ITI_System
         #region Read Data From Json File
         public List<T> LoadData<T>(string path)
         {
-            string solutionPath = @"C:\Users\Lenov\source\repos\ITI-system\Database\";
+            string solutionPath = @"D:\OneDrive - Alexandria University\Desktop\.NET\C#\OopProject2\Database\";
             string fullPath = Path.Combine(solutionPath, path);
 
             try

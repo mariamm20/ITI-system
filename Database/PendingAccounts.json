@@ -7,5 +7,14 @@
     "Password": "12345678",
     "Role": "student",
     "Approvement": false
+  },
+  {
+    "Id": 410,
+    "Name": "Mohamed Hassan",
+    "Specialization": "Data Science",
+    "Email": "mohamed@gmail.com",
+    "Password": "12345678",
+    "Role": "instructor",
+    "Approvement": false
   }
 ]
