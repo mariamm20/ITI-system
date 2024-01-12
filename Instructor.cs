@@ -20,7 +20,7 @@ namespace ITI_System
         private static Instructor loggedInInstructor;
         private void LoadInstructorData()
         {
-            string InstructorsData = File.ReadAllText(@"C:\Users\ISRAA\source\repos\ITI-System\iti project\Database\InstructorsData.json");
+            string InstructorsData = File.ReadAllText(@"D:\OneDrive - Alexandria University\Desktop\.NET\C#\OopProject2\Database\InstructorsData.json");
             instructors = JsonConvert.DeserializeObject<List<Instructor>>(InstructorsData);
         }
 
