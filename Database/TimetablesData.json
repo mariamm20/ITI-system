@@ -8,5 +8,15 @@
     "Date": "12/01/2024",
     "From": "09:00 PM",
     "To": "11:30 PM"
+  },
+  {
+    "CourseName": "css",
+    "CourseCode": 502,
+    "TrackName": "Web Development",
+    "InstructorName": "ola rashwan",
+    "InstructorID": 655,
+    "Date": "05/10/2024",
+    "From": "03:00 PM",
+    "To": "10:30 PM"
   }
 ]

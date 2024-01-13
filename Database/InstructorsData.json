@@ -99,5 +99,33 @@
     "Password": "12345678",
     "Role": "instructor",
     "Approvement": true
+  },
+  {
+    "Salary": 5000,
+    "Courses": [
+      {
+        "CourseName": "html",
+        "CourseCode": 501,
+        "TrackCode": 101
+      },
+      {
+        "CourseName": "css",
+        "CourseCode": 502,
+        "TrackCode": 101
+      }
+    ],
+    "Tracks": [
+      {
+        "TrackName": "Web Development",
+        "TrackCode": 101
+      }
+    ],
+    "Id": 499,
+    "Name": "Ali Maher",
+    "Specialization": ".Net",
+    "Email": "maher@gmail.com",
+    "Password": "12345678",
+    "Role": "instructor",
+    "Approvement": true
   }
 ]

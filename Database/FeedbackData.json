@@ -3,5 +3,10 @@
     "StudentId": 990,
     "InstructorId": 655,
     "ReportText": "This instructor is so sloooow"
+  },
+  {
+    "StudentId": 990,
+    "InstructorId": 655,
+    "ReportText": "The instructor is sooo kind"
   }
 ]

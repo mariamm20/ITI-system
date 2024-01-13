@@ -25,5 +25,14 @@
     "Password": "12345678",
     "Role": "instructor",
     "Approvement": false
+  },
+  {
+    "Id": 169,
+    "Name": "Omar Khaled",
+    "Specialization": ".Net",
+    "Email": "omarkhaled@gmail.com",
+    "Password": "12345678",
+    "Role": "instructor",
+    "Approvement": false
   }
 ]

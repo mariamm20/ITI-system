@@ -1,4 +1,5 @@
-﻿using ITI_System;
+﻿using ITI_system;
+using ITI_System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -23,6 +24,9 @@ namespace myiti
         private List<Track> Tracks { get; set; }
         private List<Course> Courses { get; set; }
         private List<Timetable> Timetables { get; set; }
+        private List<Feedback> Feedbacks { get; set; }
+        private List<Report> Reports { get; set; }
+
 
         // step 1
 
@@ -34,6 +38,9 @@ namespace myiti
             Tracks = LoadData<Track>("TracksData.json");
             Courses = LoadData<Course>("CoursesData.json");
             Timetables = LoadData<Timetable>("TimetablesData.json");
+            Feedbacks = LoadData<Feedback>("FeedbackData.json");
+            Reports = LoadData<Report>("ReportData.json");
+
         }
 
 
@@ -1153,7 +1160,7 @@ namespace myiti
             
             return flag;
         }
-        public bool EditTimeTable<T>(int EditChoice,int InstructorID, int CourseCode, T value)
+        public bool EditTimeTable<T>(string EditChoice,int InstructorID, int CourseCode, T value)
         {
             bool flag = false;
             if (value != null && CourseCode != null && InstructorID != null)
@@ -1164,7 +1171,7 @@ namespace myiti
                     {
                         switch (EditChoice)
                         {
-                            case 1:
+                            case "1. Course code":
                                 foreach (var course in Courses)
                                 {
                                     if (Convert.ToInt32(value) == course.CourseCode)
@@ -1177,7 +1184,7 @@ namespace myiti
                                     }
                                 }
                                 break;
-                            case 2:
+                            case "2. Instructor ID":
                                 foreach (var instructor in Instructors)
                                 {
                                     if (Convert.ToInt32(value) == instructor.Id)
@@ -1190,7 +1197,7 @@ namespace myiti
                                     }
                                 }
                                 break;
-                            case 3:
+                            case "3. Track Name":
                                 foreach (var track in Tracks)
                                 {
                                     if (Convert.ToString(value) == track.TrackName)
@@ -1202,17 +1209,17 @@ namespace myiti
                                     }
                                 }
                                 break;
-                            case 4:
+                            case "4. Date":
                                 timetable.Date = Convert.ToDateTime(value).ToString("dd/MM/yyyy");
                                 SaveDataToJson("TimetablesData.json", Timetables, "edit", "Lecture Date ");
                                 flag = true;
                                 break;
-                            case 5:
+                            case "5. From":
                                 timetable.From = Convert.ToDateTime(value).ToString("hh:mm tt");
                                 SaveDataToJson("TimetablesData.json", Timetables, "edit", "Lecture Start Time ");
                                 flag = true;
                                 break;
-                            case 6:
+                            case "6. To":
                                 timetable.To = Convert.ToDateTime(value).ToString("hh:mm tt");
                                 SaveDataToJson("TimetablesData.json", Timetables, "edit", "Lecture End Time ");
                                 flag = true;
@@ -1246,6 +1253,54 @@ namespace myiti
         }
         #endregion
 
+        #region  Feedback CRUD operations
+        public bool ViewFeedBack( int InstructorID)
+        {
+            bool flag = false;
+            foreach (var feedback in Feedbacks)
+            {
+                if (feedback.InstructorId == InstructorID)
+                {
+                    Console.WriteLine();
+                    Console.WriteLine($"Feedbacks for Instructor ID= {InstructorID}");
+                    Console.WriteLine("--------------------------------");
+                    Console.Write("Student ID" + "\t");
+                    Console.Write("Content" + "\t");
+                    Console.WriteLine();
+                    Console.Write(feedback.StudentId + "\t");
+                    Console.Write(feedback.ReportText + "\t");
+                   
+                    Console.WriteLine();
+                    flag = true;
+                    break;
+                }
+            }
+            return flag;
+        }
+        public bool ViewReport(int StudentId)
+        {
+            bool flag = false;
+            foreach (var report in Reports)
+            {
+                if (report.StudentId == StudentId)
+                {
+                    Console.WriteLine();
+                    Console.WriteLine($"Reports for Student ID= {StudentId}");
+                    Console.WriteLine("--------------------------------");
+                    Console.Write("Instructor ID" + "\t");
+                    Console.Write("Content" + "\t");
+                    Console.WriteLine();
+                    Console.Write(report.InstructorId + "\t");
+                    Console.Write(report.ReportText + "\t");
+
+                    Console.WriteLine();
+                    flag = true;
+                    break;
+                }
+            }
+            return flag;
+        }
+        #endregion
 
 
 

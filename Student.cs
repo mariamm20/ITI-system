@@ -18,7 +18,7 @@ namespace ITI_System
 
         public void LoadStudentsData()
         {
-            string StudentsData = File.ReadAllText(@"C:\Users\Lenov\source\repos\ITI-system\Database\StudentsData.json");
+            string StudentsData = File.ReadAllText(@"D:\OneDrive - Alexandria University\Desktop\.NET\C#\OopProject2\Database\StudentsData.json");
             students = JsonConvert.DeserializeObject<List<Student>>(StudentsData);
         }
 

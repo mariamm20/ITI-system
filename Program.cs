@@ -19,22 +19,22 @@ namespace ITI_system
         {
 
             Console.Clear();
-            Console.WriteLine("Welcome to ITI System");
-            Console.WriteLine("1. Register ");
-            Console.WriteLine("2. Login ");
-            Console.WriteLine("3. Close the program ");
-            Console.Write("Choose option  : ");
-
-            int choice = int.Parse(Console.ReadLine());
+            var choice = AnsiConsole.Prompt(
+            new SelectionPrompt<string>()
+           .Title("[green]Welcome to ITI System[/]")
+           .PageSize(10)
+           .AddChoices(new[] {
+            "1. Register", "2. Login", "3. Close the program",
+        }));
             switch (choice)
             {
-                case 1:
+                case "1. Register":
                     RegisterForm();
                     break;
-                case 2:
+                case "2. Login":
                     LoginForm();
                     break;
-                case 3:
+                case "3. Close the program":
                     Environment.Exit(0);
                     break;
                 default:
@@ -48,27 +48,23 @@ namespace ITI_system
         static void RegisterForm()
         {
             Console.Clear();
-            Console.WriteLine("Registeration Form");
-            Console.WriteLine("--------------------");
-            Console.WriteLine();
-
-            Console.WriteLine("Welcome User, please fill the following inforamtion");
-            Console.WriteLine("-----------------------------------------------------------");
-            Console.WriteLine("Are you instructor or student ?  ");
-            Console.WriteLine("1. Instructor");
-            Console.WriteLine("2. Student");
-            Console.WriteLine("0. Return Home");
-            int roleChoice = GetUserChoice();
+            var roleChoice = AnsiConsole.Prompt(
+            new SelectionPrompt<string>()
+           .Title("[green]Registeration Form[/]\n--------------------\n[blue]Welcome User, please fill the following inforamtion[/]\n-----------------------------------------------------------\n[red]Are you instructor or student ?[/]")
+           .PageSize(10)
+           .AddChoices(new[] {
+            "1. Instructor", "2. Student", "3. Close the program",
+        }));
             string role = "";
             switch (roleChoice)
             {
-                case 1:
+                case "1. Instructor":
                     role = "instructor";
                     break;
-                case 2:
+                case "2. Student":
                     role = "student";
                     break;
-                case 0:
+                case "0. Return Home":
                     DisplayHome();
                     break;
                 default:
@@ -119,19 +115,17 @@ namespace ITI_system
         static void LoginForm()
         {
             Console.Clear();
-            Console.WriteLine("Login Form");
-            Console.WriteLine("--------------------");
-            Console.WriteLine();
-            Console.WriteLine("1. Login as Admin");
-            Console.WriteLine("2. Login as Instructor");
-            Console.WriteLine("3. Login as Student");
-            Console.WriteLine("4. Return Home");
-
-            int choice = GetUserChoice();
+            var choice = AnsiConsole.Prompt(
+            new SelectionPrompt<string>()
+           .Title("[green]Login Form[/]\n--------------------")
+           .PageSize(10)
+           .AddChoices(new[] {
+            "1. Login as Admin", "2. Login as Instructor", "3. Login as Student","4. Return Home",
+            }));
 
             switch (choice)
             {
-                case 1:
+                case "1. Login as Admin":
                     Console.WriteLine("Welcome Admin");
                     Console.WriteLine();
                     int counter = 3;
@@ -151,48 +145,42 @@ namespace ITI_system
                             // All implement of Admin 
                             Console.Clear();
 
-                            Console.WriteLine("************************");
-                            Console.WriteLine("* Welcome Admin, Ghada *");
-                            Console.WriteLine("************************");
-                            Console.WriteLine();
-                            Console.WriteLine("1. Accounts Management");//done
-                            Console.WriteLine("2. Instructors Management");//done
-                            Console.WriteLine("3. Students Management");
-                            Console.WriteLine("4. Tracks Management");
-                            Console.WriteLine("5. Courses Management");
-                            Console.WriteLine("6. Timetables Management");
-                            Console.WriteLine("7. Feedback Management");
-                            Console.WriteLine("8. Logout");
+                           
 
-                            Console.WriteLine();
+                            var AdminChoice = AnsiConsole.Prompt(
+                            new SelectionPrompt<string>()
+                           .Title("[green]* Welcome Admin, Ghada *[/]\n--------------------")
+                           .PageSize(10)
+                           .AddChoices(new[] {
+                            "1. Accounts Management", "2. Instructors Management","3. Students Management","4. Tracks Management",
+                            "5. Courses Management","6. Timetables Management","7. Feedback Management","8. Logout",
+                            }));
 
-                            int AdminChoice = GetUserChoice();
 
                             switch (AdminChoice)
                             {
 
-                                case 1:
+                                case "1. Accounts Management":
                                 AccountManagementHome:
                                     Console.Clear();
-                                    Console.WriteLine("Accounts Management");
-                                    Console.WriteLine("--------------------");
-                                    Console.WriteLine();
-                                    Console.WriteLine("1. View pending accounts");
-                                    Console.WriteLine("2. Approve instructor account");
-                                    Console.WriteLine("3. Approve student account");
-                                    Console.WriteLine("4. Return Home");
-                                    int accountChoice = GetUserChoice();
-
+                                   
+                                    var accountChoice = AnsiConsole.Prompt(
+                                    new SelectionPrompt<string>()
+                                   .Title("[green]Accounts Management[/]\n--------------------")
+                                   .PageSize(10)
+                                   .AddChoices(new[] {
+                                   "1. View pending accounts", "2. Approve instructor account","3. Approve student account","4. Return Home",
+                                      }));
                                     switch (accountChoice)
                                     {
-                                        case 1:
+                                        case "1. View pending accounts":
                                             Console.Clear();
                                             Console.WriteLine("Pending Accounts");
                                             Console.WriteLine("-----------------");
                                             admin.ViewPendingAccounts();
                                             PressAnyKeyToManageConsoleScreen("return home");
                                             goto AccountManagementHome;
-                                        case 2:
+                                        case "2. Approve instructor account":
                                             Console.Clear();
                                             Console.WriteLine("Approve instructor account");
                                             Console.WriteLine("--------------------------");
@@ -240,7 +228,7 @@ namespace ITI_system
                                                 PressAnyKeyToManageConsoleScreen("return home");
                                                 goto AccountManagementHome;
                                             }
-                                        case 3:
+                                        case "3. Approve student account":
 
                                             Console.Clear();
                                             Console.WriteLine("Approve student account");
@@ -254,7 +242,7 @@ namespace ITI_system
                                             admin.ApproveAccount(studId, trackCode);
                                             PressAnyKeyToManageConsoleScreen("return home");
                                             goto AccountManagementHome;
-                                        case 4:
+                                        case "4. Return Home":
                                             goto adminhome;
                                         default:
                                             Console.WriteLine();
@@ -262,24 +250,23 @@ namespace ITI_system
                                     }
 
                                     break;
-                                case 2:
+                                case "2. Instructors Management":
                                 InstructorManagementHome:
                                     Console.Clear();
-                                    Console.WriteLine("Instructors Management");
-                                    Console.WriteLine("----------------------");
-                                    Console.WriteLine();
-                                    Console.WriteLine("1. View Instructors");
-                                    Console.WriteLine("2. Add Instructor");
-                                    Console.WriteLine("3. Edit Instructor");
-                                    Console.WriteLine("4. Delete Instructor");
-                                    Console.WriteLine("5. Return Home");
+                                   
+                                    var instructorChoice = AnsiConsole.Prompt(
+                                    new SelectionPrompt<string>()
+                                   .Title("[green]Instructors Management[/]\n--------------------")
+                                   .PageSize(10)
+                                   .AddChoices(new[] {
+                                   "1. View Instructors", "2. Add Instructor","3. Edit Instructor","4. Delete Instructor","5. Return Home",
+                                      }));
 
-                                    int instructorChoice = GetUserChoice();
                                     string[] instructorDataToEdit = { "ID", "Name", "Email", "Password", "Specilization", "Salary", "Track Code", "Course Code" };
 
                                     switch (instructorChoice)
                                     {
-                                        case 1:
+                                        case "1. View Instructors":
                                             Console.Clear();
                                             Console.WriteLine("All instructors in system");
                                             Console.WriteLine("-------------------------");
@@ -292,7 +279,7 @@ namespace ITI_system
 
                                             PressAnyKeyToManageConsoleScreen("return home");
                                             goto InstructorManagementHome;
-                                        case 2:
+                                        case "2. Add Instructor":
                                             Console.Clear();
                                             Console.WriteLine("Add Instructor in system");
                                             Console.WriteLine("------------------------");
@@ -339,7 +326,7 @@ namespace ITI_system
                                             }
                                             PressAnyKeyToManageConsoleScreen("return home");
                                             goto InstructorManagementHome;
-                                        case 3:
+                                        case "3. Edit Instructor":
                                         EditInstructor:
                                             Console.Clear();
                                             Console.WriteLine("Edit Data Of Instructor");
@@ -457,7 +444,7 @@ namespace ITI_system
                                                 goto EditInstructor;
                                             }
                                             break;
-                                        case 4:
+                                        case "4. Delete Instructor":
                                             Console.Clear();
                                             Console.WriteLine("Delete data of instructor");
                                             Console.WriteLine("---------------------------");
@@ -486,7 +473,7 @@ namespace ITI_system
                                                     break;
                                             }
                                             break;
-                                        case 5:
+                                        case "5. Return Home":
                                             goto adminhome;
 
 
@@ -495,24 +482,22 @@ namespace ITI_system
 
                                     break;
 
-                                case 3:
+                                case "3. Students Management":
                                 StudentManagementHome:
                                     Console.Clear();
-                                    Console.WriteLine("Students Management");
-                                    Console.WriteLine("--------------------");
-                                    Console.WriteLine();
-                                    Console.WriteLine("1. View Students");
-                                    Console.WriteLine("2. Add Student");
-                                    Console.WriteLine("3. Edit Student");
-                                    Console.WriteLine("4. Delete Student");
-                                    Console.WriteLine("5. Return Home");
-                                    int studentChoice = GetUserChoice();
-
+                                   
+                                    var studentChoice = AnsiConsole.Prompt(
+                                    new SelectionPrompt<string>()
+                                   .Title("[green]Students Management[/]\n--------------------")
+                                   .PageSize(10)
+                                   .AddChoices(new[] {
+                                   "1. View Students", "2. Add Student","3. Edit Student","4. Delete Student","5. Return Home",
+                                      }));
                                     string[] studentDataToEdit = { "ID", "Name", "Email", "Password", "Specilization", "Track Name", "Enrollment Date", "Courses" };
 
                                     switch (studentChoice)
                                     {
-                                        case 1:
+                                        case "1. View Students":
                                             Console.Clear();
                                             Console.WriteLine("All students in system");
                                             Console.WriteLine("-------------------------");
@@ -525,7 +510,7 @@ namespace ITI_system
 
                                             PressAnyKeyToManageConsoleScreen("return home");
                                             goto StudentManagementHome;
-                                        case 2:
+                                        case "2. Add Student":
                                             Console.Clear();
                                             Console.WriteLine("Add Student in system");
                                             Console.WriteLine("------------------------");
@@ -551,7 +536,7 @@ namespace ITI_system
                                             }
                                             PressAnyKeyToManageConsoleScreen("return home");
                                             goto StudentManagementHome;
-                                        case 3:
+                                        case "3. Edit Student":
                                         EditStudent:
                                             Console.Clear();
                                             Console.WriteLine("Edit Data Of Student");
@@ -648,7 +633,7 @@ namespace ITI_system
                                                 goto EditStudent;
                                             }
                                             break;
-                                        case 4:
+                                        case "4. Delete Student":
                                             Console.Clear();
                                             Console.WriteLine("Delete data of student");
                                             Console.WriteLine("---------------------------");
@@ -677,29 +662,27 @@ namespace ITI_system
                                                     break;
                                             }
                                             break;
-                                        case 5:
+                                        case "5. Return Home":
                                             goto adminhome;
 
                                     }
 
                                     break;
 
-                                case 4:
+                                case "4. Tracks Management":
                                 TrackManagementHome:
                                     Console.Clear();
-                                    Console.WriteLine("Tracks Management");
-                                    Console.WriteLine("--------------------");
-                                    Console.WriteLine();
-                                    Console.WriteLine("1. View Tracks");
-                                    Console.WriteLine("2. Add Track");
-                                    Console.WriteLine("3. Edit Track");
-                                    Console.WriteLine("4. Delete Track");
-                                    Console.WriteLine("5. Return Home");
-                                    int trackChoice = GetUserChoice();
-
+                                    
+                                    var trackChoice = AnsiConsole.Prompt(
+                                     new SelectionPrompt<string>()
+                                     .Title("[green]Tracks Management[/]\n--------------------")
+                                     .PageSize(10)
+                                     .AddChoices(new[] {
+                                     "1. View Tracks", "2. Add Track","3. Edit Track","4. Delete Track","5. Return Home",
+                                     }));
                                     switch (trackChoice)
                                     {
-                                        case 1:
+                                        case "1. View Tracks":
                                             Console.Clear();
                                             Console.WriteLine("Avialable Tracks");
                                             Console.WriteLine("-----------------");
@@ -709,7 +692,7 @@ namespace ITI_system
                                             admin.ViewTracks();
                                             PressAnyKeyToManageConsoleScreen("return home");
                                             goto TrackManagementHome;
-                                        case 2:
+                                        case "2. Add Track":
                                             Console.Clear();
                                             Console.WriteLine("Add Track");
                                             Console.Write("Track Name : ");
@@ -728,7 +711,7 @@ namespace ITI_system
                                             }
                                             PressAnyKeyToManageConsoleScreen("return home");
                                             goto TrackManagementHome;
-                                        case 3:
+                                        case "3. Edit Track":
                                         EditTrack:
                                             Console.Clear();
                                             Console.WriteLine("Edit Data Of Track");
@@ -805,7 +788,7 @@ namespace ITI_system
                                                 goto EditTrack;
                                             }
                                             break;
-                                        case 4:
+                                        case "4. Delete Track":
                                             Console.Clear();
                                             Console.WriteLine("Delete data of Track");
                                             Console.WriteLine("---------------------------");
@@ -835,7 +818,7 @@ namespace ITI_system
                                                     break;
                                             }
                                             break;
-                                        case 5:
+                                        case "5. Return Home":
                                             goto adminhome;
 
                                     }
@@ -846,21 +829,19 @@ namespace ITI_system
 
 
                                 // Mohamed Part 
-                                case 5:
+                                case "5. Courses Management":
                                 CourseManagementHome:
                                     Console.Clear();
-                                    Console.WriteLine("Courses Management");
-                                    Console.WriteLine("--------------------");
-                                    Console.WriteLine();
-                                    Console.WriteLine("1. View Courses");
-                                    Console.WriteLine("2. Add Course");
-                                    Console.WriteLine("3. Edit Course");
-                                    Console.WriteLine("4. Delete Course");
-                                    Console.WriteLine("5. Admin Home");
-                                    int coursesChoice = GetUserChoice();
+                                    var coursesChoice = AnsiConsole.Prompt(
+                                    new SelectionPrompt<string>()
+                                    .Title("[green]Courses Management[/]\n--------------------")
+                                    .PageSize(10)
+                                    .AddChoices(new[] {
+                                    "1. View Courses", "2. Add Course","3. Edit Course","4. Delete Course","5. Admin Home",
+                                        }));
                                     switch (coursesChoice)
                                     {
-                                        case 1:
+                                        case "1. View Courses":
                                             Console.Clear();
                                             Console.WriteLine("Avialable Courses");
                                             Console.WriteLine("-----------------");
@@ -871,7 +852,7 @@ namespace ITI_system
                                             admin.ViewCourses();
                                             PressAnyKeyToManageConsoleScreen("return home");
                                             goto CourseManagementHome;
-                                        case 2:
+                                        case "2. Add Course":
                                             Console.Clear();
                                             Console.WriteLine("Add Course");
                                             Console.Write("Course Name : ");
@@ -892,7 +873,7 @@ namespace ITI_system
                                             }
                                             PressAnyKeyToManageConsoleScreen("return home");
                                             goto CourseManagementHome;
-                                        case 3:
+                                        case "3. Edit Course":
                                         EditCourse:
                                             Console.Clear();
                                             Console.WriteLine("Edit Data Of Course");
@@ -980,7 +961,7 @@ namespace ITI_system
                                                 goto EditCourse;
                                             }
                                             break;
-                                        case 4:
+                                        case "4. Delete Course":
                                             Console.Clear();
                                             Console.WriteLine("Delete data of Course");
                                             Console.WriteLine("---------------------------");
@@ -1010,28 +991,27 @@ namespace ITI_system
                                                     break;
                                             }
                                             break;
-                                        case 5:
+                                        case "5. Admin Home":
                                             goto adminhome;
                                     }
                                     break;
 
 
 
-                                case 6:
+                                case "6. Timetables Management":
                                 TimetablesManagementHome:
                                     Console.Clear();
-                                    Console.WriteLine("Timetables Management");
-                                    Console.WriteLine("--------------------");
-                                    Console.WriteLine();
-                                    Console.WriteLine("1. View Timetable");
-                                    Console.WriteLine("2. Add Timetable");
-                                    Console.WriteLine("3. Edit Timetable");
-                                    Console.WriteLine("4. Delete Timetable");
-                                    Console.WriteLine("5. Admin Home");
-                                    int timetableChoice = GetUserChoice();
+                                    
+                                    var timetableChoice = AnsiConsole.Prompt(
+                                    new SelectionPrompt<string>()
+                                   .Title("[green]Timetables Management[/]\n--------------------")
+                                   .PageSize(10)
+                                   .AddChoices(new[] {
+                                    "1. View Timetable", "2. Add Timetable","3. Edit Timetable","4. Delete Timetable","5. Admin Home",
+                                       }));
                                     switch (timetableChoice)
                                     {
-                                        case 1:
+                                        case "1. View Timetable":
                                             Console.Clear();
                                             Console.WriteLine("Avialable TimeTables");
                                             Console.WriteLine("-----------------");
@@ -1047,7 +1027,7 @@ namespace ITI_system
                                             admin.ViewTimeTable();
                                             PressAnyKeyToManageConsoleScreen("return home");
                                             goto TimetablesManagementHome;
-                                        case 2:
+                                        case "2. Add Timetable":
                                             Console.Clear();
                                             Console.WriteLine("Add TimeTable");
                                             Console.Write("Course Code : ");
@@ -1072,7 +1052,7 @@ namespace ITI_system
                                             }
                                             PressAnyKeyToManageConsoleScreen("return home");
                                             goto TimetablesManagementHome;
-                                        case 3:
+                                        case "3. Edit Timetable":
                                         EditTimeTable:
                                             Console.Clear();
                                             Console.WriteLine("Edit Data Of TimeTable");
@@ -1087,20 +1067,18 @@ namespace ITI_system
                                             if (ResultOfViewSpecificCourse)
                                             {
                                                 Console.WriteLine();
-                                                Console.WriteLine("What do you want to edit?");
-                                                string[] trackDataToEditOptions = { "Course code", "Instructor ID","Track Name","Date","From","To" };
-
-                                                for (int i = 0; i < trackDataToEditOptions.Length; i++)
-                                                {
-                                                    Console.WriteLine($"{i + 1}. {trackDataToEditOptions[i]}");
-                                                }
-                                                Console.WriteLine();
-                                                Console.WriteLine("0. Return Home");
-                                                int editChoice = GetUserChoice();
+                                                
+                                                var editChoice = AnsiConsole.Prompt(
+                                                new SelectionPrompt<string>()
+                                                .Title("[green]What do you want to edit?[/]\n--------------------")
+                                                .PageSize(10)
+                                                .AddChoices(new[] {
+                                                 "1. Course code", "2. Instructor ID","3. Track Name","4. Date","5. From","6. To","0. Return Home",
+                                                      }));
                                                 switch (editChoice)
                                                 {
-                                                    
-                                                    case 1:
+
+                                                    case "1. Course code":
                                                         Console.WriteLine("Course Code:");
                                                         int CourseCodeValue = int.Parse(Console.ReadLine());
                                                         bool resultOfEdit = admin.EditTimeTable(editChoice,IId, Ccode, CourseCodeValue);
@@ -1114,7 +1092,7 @@ namespace ITI_system
                                                             goto TimetablesManagementHome;
                                                         }
                                                         break;
-                                                    case 2:
+                                                    case "2. Instructor ID":
                                                         Console.WriteLine("Instructor ID :");
                                                         int InstructorIDValue = int.Parse(Console.ReadLine());
                                                         resultOfEdit = admin.EditTimeTable(editChoice,IId, Ccode, InstructorIDValue);
@@ -1129,7 +1107,7 @@ namespace ITI_system
 
                                                         }
                                                         break;
-                                                    case 3:
+                                                    case "3. Track Name":
                                                         Console.WriteLine("Track Name:");
                                                         string TrackNameValue = Console.ReadLine();
                                                         resultOfEdit = admin.EditTimeTable(editChoice,IId, Ccode, TrackNameValue);
@@ -1144,7 +1122,7 @@ namespace ITI_system
 
                                                         }
                                                         break;
-                                                    case 4:
+                                                    case "4. Date":
                                                         Console.WriteLine("Date:");
                                                         string DateValue = Console.ReadLine();
                                                         resultOfEdit = admin.EditTimeTable(editChoice, IId, Ccode, DateValue);
@@ -1159,7 +1137,7 @@ namespace ITI_system
 
                                                         }
                                                         break;
-                                                    case 5:
+                                                    case "5. From":
                                                         Console.WriteLine("From:");
                                                         string FromValue = Console.ReadLine();
                                                         resultOfEdit = admin.EditTimeTable(editChoice, IId, Ccode, FromValue);
@@ -1174,7 +1152,7 @@ namespace ITI_system
 
                                                         }
                                                         break;
-                                                    case 6:
+                                                    case "6. To":
                                                         Console.WriteLine("To:");
                                                         string ToValue = Console.ReadLine();
                                                         resultOfEdit = admin.EditTimeTable(editChoice, IId, Ccode, ToValue);
@@ -1189,7 +1167,7 @@ namespace ITI_system
 
                                                         }
                                                         break;
-                                                    case 0:
+                                                    case "0. Return Home":
                                                         goto TimetablesManagementHome;
                                                     default:
                                                         Console.WriteLine("Invalid choice");
@@ -1203,7 +1181,7 @@ namespace ITI_system
                                                 goto EditTimeTable;
                                             }
                                             break;
-                                        case 4:
+                                        case "4. Delete Timetable":
                                             Console.Clear();
                                             Console.WriteLine("Delete data of TimeTable");
                                             Console.WriteLine("---------------------------");
@@ -1235,23 +1213,41 @@ namespace ITI_system
                                                     break;
                                             }
                                             break;
-                                        case 5:
+                                        case "5. Admin Home":
                                             goto adminhome;
                                     }
                                     break;
 
                                     
-                                case 7:
+                                case "7. Feedback Management":
                                     Console.Clear();
-                                    Console.WriteLine("Feedbacks Management");
-                                    Console.WriteLine("--------------------");
-                                    Console.WriteLine();
-                                    Console.WriteLine("1. View Feedback");
-                                    Console.WriteLine("2. Delete Feedback");
-                                    int feedbackChoice = GetUserChoice();
+                                    var feedbackChoice = AnsiConsole.Prompt(
+                                    new SelectionPrompt<string>()
+                                   .Title("[green]Timetables Management[/]\n--------------------")
+                                   .PageSize(10)
+                                   .AddChoices(new[] {
+                                    "1. View Feedback For instructor", "2. View Reports For student ",
+                                       }));
 
+                                    switch (feedbackChoice)
+                                    {
+                                        case "1. View Feedback For instructor":
+                                            Console.WriteLine("Enter Id of instuctor");
+                                            int instructorId = int.Parse(Console.ReadLine());
+
+                                            admin.ViewFeedBack(instructorId);
+                                            break;
+                                        case "2. View Reports For student ":
+                                            Console.WriteLine("Enter Id of student");
+                                            int studentId = int.Parse(Console.ReadLine());
+
+                                            admin.ViewReport(studentId);
+                                            break;
+
+
+                                    }
                                     break;
-                                case 8:
+                                case "8. Logout":
                                     DisplayHome();
                                     break;
 
@@ -1276,7 +1272,7 @@ namespace ITI_system
 
                     break;
                 // Instructor Implementation
-                case 2:
+                case "2. Login as Instructor":
                     Console.WriteLine("Welcome Instructor");
                     Console.WriteLine();
                     int counter1 = 3;
@@ -1297,53 +1293,54 @@ namespace ITI_system
                         Console.WriteLine("Instructor Login successfully");
                         InstrucctorsMangment:
                             Console.Clear();
-                            Console.WriteLine("1. View Information ");
-                            Console.WriteLine("2. View courses ");
-                            Console.WriteLine("3. View Time Table ");
-                            Console.WriteLine("4. View students ");
-                            Console.WriteLine("5. Manage Grade ");
-                            Console.WriteLine("6. Report Student ");
-                            Console.WriteLine("7. Logout ");
-                            Console.WriteLine("Enter your chico");
-                            int choic = GetUserChoice();
+                           
+                            var choic = AnsiConsole.Prompt(
+                            new SelectionPrompt<string>()
+                            .Title("[green]Instrucctors Mangment[/]\n--------------------")
+                            .PageSize(10)
+                            .AddChoices(new[] {
+                            "1. View Information ", "2. View courses ","3. View Time Table ","4. View students ","5. Manage Grade ","6. Report Student ",
+                            "7. Logout ",
+                               }));
                             switch (choic)
                             {
-                                case 1:
+                                case "1. View Information ":
                                     Console.Clear();
                                     Console.WriteLine("The Instructor Information is :");
                                     holder.ViewInformation();
                                     PressAnyKeyToManageConsoleScreen("return home");
                                     goto InstrucctorsMangment;
-                                case 2:
+                                case "2. View courses ":
                                     Console.Clear();
                                     holder.ViewCoursesByInstructor(holder.Id);
                                     PressAnyKeyToManageConsoleScreen("return home");
                                     goto InstrucctorsMangment;
-                                 case 3:
+                                 case "3. View Time Table ":
                                     Console.Clear();
                                     holder.ViewTimetable(holder.Id);
                                     PressAnyKeyToManageConsoleScreen("return home");
                                     goto InstrucctorsMangment;
-                                case 4:
+                                case "4. View students ":
                                     Console.Clear();
                                     Console.WriteLine("Enter Track Code To View Student  : ");
                                     int trackcode = int.Parse(Console.ReadLine());
                                     holder.ViewStudents(trackcode);
                                     PressAnyKeyToManageConsoleScreen("return home");
                                     goto InstrucctorsMangment;
-                                case 5:
+                                case "5. Manage Grade ":
                                     GradesMangment:
                                     Console.Clear();
-                                    Console.WriteLine("Grades Management");
-                                    Console.WriteLine("------------------");
-                                    Console.WriteLine("1. Add Grade");
-                                    Console.WriteLine("2. Edit Grade");
-                                    Console.WriteLine("3. Back to Main Instructor Mangment");
-                                    Console.WriteLine("Enter your Choice : ");
-                                    int Cho = int.Parse(Console.ReadLine());
-                                    switch (Cho)
+                                    
+                                    var Gradeschoic = AnsiConsole.Prompt(
+                                    new SelectionPrompt<string>()
+                                   .Title("[green]Grades Management[/]\n--------------------")
+                                   .PageSize(10)
+                                   .AddChoices(new[] {
+                                   "1. Add Grade", "2. Edit Grade","3. Back to Main Instructor Mangment",
+                                        }));
+                                    switch (Gradeschoic)
                                     {
-                                        case 1:
+                                        case "1. Add Grade":
                                             Console.Clear();
                                             Console.WriteLine("Enter Course Code :");
                                             int c = int.Parse(Console.ReadLine());
@@ -1358,7 +1355,7 @@ namespace ITI_system
                                             holder.GiveGrade(ss, co, grade);
                                             PressAnyKeyToManageConsoleScreen("return grades management home");
                                             goto GradesMangment;
-                                        case 2:
+                                        case "2. Edit Grade":
                                             Console.Clear();
                                             Console.WriteLine("Enter Course Code :");
                                             int cc2 = int.Parse(Console.ReadLine());
@@ -1373,7 +1370,7 @@ namespace ITI_system
                                             holder.EditGrade(ss2, co2, grade2);
                                             PressAnyKeyToManageConsoleScreen("return grades management home");
                                             goto GradesMangment;
-                                        case 3:
+                                        case "3. Back to Main Instructor Mangment":
                                             Console.ReadKey();
                                             goto InstrucctorsMangment;
 
@@ -1383,7 +1380,7 @@ namespace ITI_system
                                             goto InstrucctorsMangment;
                                     }
                                    
-                                case 6:
+                                case "6. Report Student ":
                                     Console.Clear();
                                     Console.WriteLine("Enter Student Id who you need to report : ");
                                     int StID = int.Parse(Console.ReadLine());
@@ -1393,7 +1390,7 @@ namespace ITI_system
                                     holder.ReportStudent(StID, holder.Id, feed);
                                     PressAnyKeyToManageConsoleScreen("return home");
                                     goto InstrucctorsMangment;
-                                case 7:
+                                case "7. Logout ":
                                     DisplayHome();
                                     break;
                                 default:
@@ -1423,7 +1420,7 @@ namespace ITI_system
 
                     break;
                 // Student Implementation
-                case 3:
+                case "3. Login as Student":
                     Console.WriteLine("Welcome Student");
                     Console.WriteLine();
                     int counter2 = 3;
@@ -1442,33 +1439,32 @@ namespace ITI_system
                             // All implement of student
                             StudentManagementHome:
                             Console.Clear();
-                            
-                            Console.WriteLine($"Welcome {holder.Name}");
-                            Console.WriteLine("--------------------------------");
-                            Console.WriteLine("1. View Personal Information");
-                            Console.WriteLine("2. View Timetable");
-                            Console.WriteLine("3. View Grades");
-                            Console.WriteLine("4. Report Instructor");
-                            Console.WriteLine("5. Logout");
-                            int studentChoice = GetUserChoice();
+                          
+                            var studentChoice = AnsiConsole.Prompt(
+                            new SelectionPrompt<string>()
+                            .Title($"[green]Welcome [/][red]{holder.Name}[/]\n--------------------")
+                            .PageSize(10)
+                            .AddChoices(new[] {
+                             "1. View Personal Information", "2. View Timetable","3. View Grades","4. Report Instructor","5. Logout",
+                                 }));
                             switch (studentChoice)
                             {
-                                case 1:
+                                case "1. View Personal Information":
                                     Console.Clear();
                                     holder.ViewData();
                                     PressAnyKeyToManageConsoleScreen("return home");
                                     goto StudentManagementHome;
-                                case 2:
+                                case "2. View Timetable":
                                     Console.Clear();
                                     holder.ViewTimeTable();
                                     PressAnyKeyToManageConsoleScreen("return home");
                                     goto StudentManagementHome;
-                                case 3:
+                                case "3.View Grades":
                                     Console.Clear();
                                     holder.ViewGrade();
                                     PressAnyKeyToManageConsoleScreen("return home");
                                     goto StudentManagementHome;
-                                case 4:
+                                case "4. Report Instructor":
                                 
                                     Console.Clear();
                                     Console.WriteLine("Enter Instructor Id who you need to report : ");
@@ -1479,7 +1475,7 @@ namespace ITI_system
                                     holder.ReportInstructor(holder.Id, InstructorID, feed);
                                     PressAnyKeyToManageConsoleScreen("return home");
                                     goto StudentManagementHome;
-                                case 5:
+                                case "5. Logout":
                                     DisplayHome();
                                     break;
                                 default:
@@ -1508,7 +1504,7 @@ namespace ITI_system
 
                     }
                     break;
-                case 4:
+                case "4. Return Home":
                     DisplayHome();
                     break;
 
