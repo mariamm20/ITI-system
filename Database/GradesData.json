@@ -1,10 +1,5 @@
 [
   {
-    "StudentId": 11101,
-    "CourseCode": 101,
-    "GradeNumber": 85.5
-  },
-  {
     "StudentId": 990,
     "CourseCode": 501,
     "GradeNumber": 70.0

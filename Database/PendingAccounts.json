@@ -16,5 +16,14 @@
     "Password": "12345678",
     "Role": "instructor",
     "Approvement": false
+  },
+  {
+    "Id": 301,
+    "Name": "Adel Shawkt",
+    "Specialization": "senior ghraphic designer",
+    "Email": "adel@gmail.com",
+    "Password": "12345678",
+    "Role": "instructor",
+    "Approvement": false
   }
 ]

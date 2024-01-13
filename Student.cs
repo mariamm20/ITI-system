@@ -18,7 +18,7 @@ namespace ITI_System
 
         public void LoadStudentsData()
         {
-            string StudentsData = File.ReadAllText(@"D:\OneDrive - Alexandria University\Desktop\.NET\C#\OopProject2\Database\StudentsData.json");
+            string StudentsData = File.ReadAllText(@"C:\Users\Lenov\source\repos\ITI-system\Database\StudentsData.json");
             students = JsonConvert.DeserializeObject<List<Student>>(StudentsData);
         }
 
@@ -88,10 +88,25 @@ namespace ITI_System
             Console.WriteLine();
         }
 
-        public void ViewTimeTable(List<Timetable> timetables)
+        public void ViewTimeTable()
         {
+            List<Timetable> timetables = LoadData<Timetable>("TimetablesData.json");
             Console.WriteLine($"Time Table for {Track.TrackName} Track:");
-            var studentTimetable = timetables.FindAll(t => loggedInStudent.Courses.Exists(c => c.CourseCode == t.CourseCode)).ToList();
+            
+            List<Timetable> studentTimetable = new List<Timetable>();
+
+            foreach (var table in timetables)
+            {
+                foreach(var course in loggedInStudent.Courses)
+                {
+                    if(table.CourseCode == course.CourseCode)
+                    {
+                        studentTimetable.Add(table); 
+                    }
+                }
+            }
+  
+
             if (studentTimetable.Count > 0)
             {
                 Console.WriteLine($"{"Course",-15}{"Date",-12}{"From",-10}{"To"}");
@@ -105,6 +120,31 @@ namespace ITI_System
                 Console.WriteLine("No timetable available.");
             }
             Console.WriteLine();
+        }
+        public void ViewGrade()
+        {
+            List<Grade> studentGrade = LoadData<Grade>("GradesData.json");
+
+            foreach(var grade in studentGrade)
+            {
+                if(grade.StudentId == loggedInStudent.Id)
+                {
+                    foreach(var course in loggedInStudent.Courses)
+                    {
+                        if(course.CourseCode == grade.CourseCode)
+                        {
+                            Console.WriteLine(course.CourseName + "\t");
+                            Console.WriteLine(grade.GradeNumber);
+
+                        }
+                    }
+                    
+                }
+                else
+                {
+                    Console.WriteLine("No Available Grades");
+                }
+            }
         }
 
         public void ReportInstructor(int studentId, int instructorId, string reportText)

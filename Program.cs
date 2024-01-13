@@ -3,6 +3,7 @@ using myiti;
 using Newtonsoft.Json;
 using System.Security.Principal;
 using Spectre.Console;
+using System.Data;
 
 
 namespace ITI_system
@@ -53,8 +54,29 @@ namespace ITI_system
 
             Console.WriteLine("Welcome User, please fill the following inforamtion");
             Console.WriteLine("-----------------------------------------------------------");
-            Console.Write("Are you instructor or student ?  ");
-            string role = Console.ReadLine().ToLower().Trim();
+            Console.WriteLine("Are you instructor or student ?  ");
+            Console.WriteLine("1. Instructor");
+            Console.WriteLine("2. Student");
+            Console.WriteLine("0. Return Home");
+            int roleChoice = GetUserChoice();
+            string role = "";
+            switch (roleChoice)
+            {
+                case 1:
+                    role = "instructor";
+                    break;
+                case 2:
+                    role = "student";
+                    break;
+                case 0:
+                    DisplayHome();
+                    break;
+                default:
+                    Console.WriteLine("Invalid Choice");
+                    PressAnyKeyToManageConsoleScreen("return home");
+                    DisplayHome();
+                    break;
+            }
             Console.Write("Your Name : ");
             string name = Console.ReadLine();
             Console.Write("Your Specialization : ");
@@ -140,7 +162,7 @@ namespace ITI_system
                             Console.WriteLine("5. Courses Management");
                             Console.WriteLine("6. Timetables Management");
                             Console.WriteLine("7. Feedback Management");
-
+                            Console.WriteLine("8. Logout");
 
                             Console.WriteLine();
 
@@ -1229,6 +1251,9 @@ namespace ITI_system
                                     int feedbackChoice = GetUserChoice();
 
                                     break;
+                                case 8:
+                                    DisplayHome();
+                                    break;
 
                             }
                             break;
@@ -1272,12 +1297,13 @@ namespace ITI_system
                         Console.WriteLine("Instructor Login successfully");
                         InstrucctorsMangment:
                             Console.Clear();
-                            Console.WriteLine("1- View Information ");
-                            Console.WriteLine("2- View courses ");
-                            Console.WriteLine("3- View Time Table ");
-                            Console.WriteLine("4- View students ");
-                            Console.WriteLine("5- Manage Grade ");
-                            Console.WriteLine("6- Report Student ");
+                            Console.WriteLine("1. View Information ");
+                            Console.WriteLine("2. View courses ");
+                            Console.WriteLine("3. View Time Table ");
+                            Console.WriteLine("4. View students ");
+                            Console.WriteLine("5. Manage Grade ");
+                            Console.WriteLine("6. Report Student ");
+                            Console.WriteLine("7. Logout ");
                             Console.WriteLine("Enter your chico");
                             int choic = GetUserChoice();
                             switch (choic)
@@ -1286,35 +1312,33 @@ namespace ITI_system
                                     Console.Clear();
                                     Console.WriteLine("The Instructor Information is :");
                                     holder.ViewInformation();
-                                    Console.WriteLine("press any key to go the instructor mangment");
-                                    Console.ReadKey();
+                                    PressAnyKeyToManageConsoleScreen("return home");
                                     goto InstrucctorsMangment;
                                 case 2:
                                     Console.Clear();
                                     holder.ViewCoursesByInstructor(holder.Id);
-                                    Console.WriteLine("press any key to go the instructor mangment");
-                                    Console.ReadKey();
+                                    PressAnyKeyToManageConsoleScreen("return home");
                                     goto InstrucctorsMangment;
                                  case 3:
                                     Console.Clear();
                                     holder.ViewTimetable(holder.Id);
-                                    Console.WriteLine("press any key to go the instructor mangment");
-                                    Console.ReadKey();
+                                    PressAnyKeyToManageConsoleScreen("return home");
                                     goto InstrucctorsMangment;
                                 case 4:
                                     Console.Clear();
                                     Console.WriteLine("Enter Track Code To View Student  : ");
                                     int trackcode = int.Parse(Console.ReadLine());
                                     holder.ViewStudents(trackcode);
-                                    Console.WriteLine("press any key to go the instructor mangment");
-                                    Console.ReadKey();
+                                    PressAnyKeyToManageConsoleScreen("return home");
                                     goto InstrucctorsMangment;
                                 case 5:
                                     GradesMangment:
                                     Console.Clear();
-                                    Console.WriteLine("1-Add Grade :");
-                                    Console.WriteLine("2-Edit Grade : ");
-                                    Console.WriteLine("3-Back to Main Instructor Mangment  : ");
+                                    Console.WriteLine("Grades Management");
+                                    Console.WriteLine("------------------");
+                                    Console.WriteLine("1. Add Grade");
+                                    Console.WriteLine("2. Edit Grade");
+                                    Console.WriteLine("3. Back to Main Instructor Mangment");
                                     Console.WriteLine("Enter your Choice : ");
                                     int Cho = int.Parse(Console.ReadLine());
                                     switch (Cho)
@@ -1332,8 +1356,7 @@ namespace ITI_system
                                             Console.WriteLine("Enter Grade : ");
                                             double grade = double.Parse(Console.ReadLine());
                                             holder.GiveGrade(ss, co, grade);
-                                            Console.WriteLine("press any key to go the instructor mangment");
-                                            Console.ReadKey();
+                                            PressAnyKeyToManageConsoleScreen("return grades management home");
                                             goto GradesMangment;
                                         case 2:
                                             Console.Clear();
@@ -1348,8 +1371,7 @@ namespace ITI_system
                                             Console.WriteLine("Enter Grade : ");
                                             double grade2 = double.Parse(Console.ReadLine());
                                             holder.EditGrade(ss2, co2, grade2);
-                                            Console.WriteLine("press any key to go the instructor mangment");
-                                            Console.ReadKey();
+                                            PressAnyKeyToManageConsoleScreen("return grades management home");
                                             goto GradesMangment;
                                         case 3:
                                             Console.ReadKey();
@@ -1357,13 +1379,8 @@ namespace ITI_system
 
                                         default:
                                             Console.WriteLine("Invalid choice");
-                                            Console.WriteLine("press any key to go the instructor mangment");
-                                            Console.ReadKey();
+                                            PressAnyKeyToManageConsoleScreen("return home");
                                             goto InstrucctorsMangment;
-
-
-
-
                                     }
                                    
                                 case 6:
@@ -1374,13 +1391,14 @@ namespace ITI_system
                                     Console.WriteLine("Enter your Feedback : ");
                                     string feed = Console.ReadLine();
                                     holder.ReportStudent(StID, holder.Id, feed);
-                                    Console.WriteLine("press any key to go the instructor mangment");
-                                    Console.ReadKey();
+                                    PressAnyKeyToManageConsoleScreen("return home");
                                     goto InstrucctorsMangment;
+                                case 7:
+                                    DisplayHome();
+                                    break;
                                 default:
                                     Console.WriteLine("Invalid Choice ");
-                                    Console.WriteLine("press any key to go the instructor mangment");
-                                    Console.ReadKey();
+                                    PressAnyKeyToManageConsoleScreen("return home");
                                     goto InstrucctorsMangment;
 
                             }
@@ -1421,12 +1439,57 @@ namespace ITI_system
                         if (holder != null)
                         {
 
-                            // All implement of student 
+                            // All implement of student
+                            StudentManagementHome:
                             Console.Clear();
-                            Console.WriteLine("Student Login successfully");
-                            Console.WriteLine(holder.Id);
-                            holder.ViewData();
-                            break;
+                            
+                            Console.WriteLine($"Welcome {holder.Name}");
+                            Console.WriteLine("--------------------------------");
+                            Console.WriteLine("1. View Personal Information");
+                            Console.WriteLine("2. View Timetable");
+                            Console.WriteLine("3. View Grades");
+                            Console.WriteLine("4. Report Instructor");
+                            Console.WriteLine("5. Logout");
+                            int studentChoice = GetUserChoice();
+                            switch (studentChoice)
+                            {
+                                case 1:
+                                    Console.Clear();
+                                    holder.ViewData();
+                                    PressAnyKeyToManageConsoleScreen("return home");
+                                    goto StudentManagementHome;
+                                case 2:
+                                    Console.Clear();
+                                    holder.ViewTimeTable();
+                                    PressAnyKeyToManageConsoleScreen("return home");
+                                    goto StudentManagementHome;
+                                case 3:
+                                    Console.Clear();
+                                    holder.ViewGrade();
+                                    PressAnyKeyToManageConsoleScreen("return home");
+                                    goto StudentManagementHome;
+                                case 4:
+                                
+                                    Console.Clear();
+                                    Console.WriteLine("Enter Instructor Id who you need to report : ");
+                                    int InstructorID = int.Parse(Console.ReadLine());
+
+                                    Console.WriteLine("Enter your Feedback : ");
+                                    string feed = Console.ReadLine();
+                                    holder.ReportInstructor(holder.Id, InstructorID, feed);
+                                    PressAnyKeyToManageConsoleScreen("return home");
+                                    goto StudentManagementHome;
+                                case 5:
+                                    DisplayHome();
+                                    break;
+                                default:
+                                    Console.WriteLine("Invalid Choice ");
+                                    PressAnyKeyToManageConsoleScreen("return Home");
+                                    goto StudentManagementHome;
+
+
+                            }
+
                         }
                         else
                         {
