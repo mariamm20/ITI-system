@@ -176,7 +176,6 @@ namespace ITI_system
                                         case "1. View pending accounts":
                                             Console.Clear();
                                             Console.WriteLine("Pending Accounts");
-                                            Console.WriteLine("-----------------");
                                             admin.ViewPendingAccounts();
                                             PressAnyKeyToManageConsoleScreen("return home");
                                             goto AccountManagementHome;
@@ -268,13 +267,7 @@ namespace ITI_system
                                     {
                                         case "1. View Instructors":
                                             Console.Clear();
-                                            Console.WriteLine("All instructors in system");
-                                            Console.WriteLine("-------------------------");
-                                            for (int i = 0; i < instructorDataToEdit.Length; i++)
-                                            {
-                                                Console.Write(instructorDataToEdit[i] + "\t");
-                                            }
-                                            Console.WriteLine();
+                                            Console.WriteLine("All instructors in system");                                           
                                             admin.ViewInstructors();
 
                                             PressAnyKeyToManageConsoleScreen("return home");
@@ -499,13 +492,7 @@ namespace ITI_system
                                     {
                                         case "1. View Students":
                                             Console.Clear();
-                                            Console.WriteLine("All students in system");
-                                            Console.WriteLine("-------------------------");
-                                            for (int i = 0; i < studentDataToEdit.Length; i++)
-                                            {
-                                                Console.Write(studentDataToEdit[i] + "\t");
-                                            }
-                                            Console.WriteLine();
+                                            Console.WriteLine("All students in system");                                            
                                             admin.ViewStudents();
 
                                             PressAnyKeyToManageConsoleScreen("return home");
@@ -1014,16 +1001,7 @@ namespace ITI_system
                                         case "1. View Timetable":
                                             Console.Clear();
                                             Console.WriteLine("Avialable TimeTables");
-                                            Console.WriteLine("-----------------");
-                                            Console.Write("Course Name" + "\t");
-                                            Console.Write("Course Code" + "\t");
-                                            Console.Write("Track Name" + "\t");
-                                            Console.Write("Instructor Name" + "\t");
-                                            Console.Write("Instructor ID" + "\t");
-                                            Console.Write("Date" + "\t");
-                                            Console.Write("From" + "\t");
-                                            Console.Write("To" + "\t");
-                                            Console.WriteLine();
+                                            
                                             admin.ViewTimeTable();
                                             PressAnyKeyToManageConsoleScreen("return home");
                                             goto TimetablesManagementHome;
@@ -1220,13 +1198,14 @@ namespace ITI_system
 
                                     
                                 case "7. Feedback Management":
+                                   FeedbackManagementHome:
                                     Console.Clear();
                                     var feedbackChoice = AnsiConsole.Prompt(
                                     new SelectionPrompt<string>()
                                    .Title("[green]Timetables Management[/]\n--------------------")
                                    .PageSize(10)
                                    .AddChoices(new[] {
-                                    "1. View Feedback For instructor", "2. View Reports For student ",
+                                    "1. View Feedback For instructor", "2. View Reports For student ","3. Admin Home",
                                        }));
 
                                     switch (feedbackChoice)
@@ -1236,14 +1215,17 @@ namespace ITI_system
                                             int instructorId = int.Parse(Console.ReadLine());
 
                                             admin.ViewFeedBack(instructorId);
-                                            break;
+                                            PressAnyKeyToManageConsoleScreen("return home");
+                                            goto FeedbackManagementHome; ;
                                         case "2. View Reports For student ":
                                             Console.WriteLine("Enter Id of student");
                                             int studentId = int.Parse(Console.ReadLine());
 
                                             admin.ViewReport(studentId);
-                                            break;
-
+                                            PressAnyKeyToManageConsoleScreen("return home");
+                                            goto FeedbackManagementHome;
+                                        case "3. Admin Home":
+                                            goto adminhome;
 
                                     }
                                     break;

@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using System.Diagnostics.Metrics;
 using myiti;
 using ITI_system;
+using Spectre.Console;
+using System.Xml;
 
 namespace ITI_System
 {
@@ -75,15 +77,29 @@ namespace ITI_System
         public void ViewData()
         {
             Instructor inst = GetLoggedInInstructor();
-            Console.WriteLine(inst.Email);
+            var table = new Table();
+
+            // Add some columns
+            table.AddColumn("[grey58]Email[/]");
+            table.AddRow($"[cyan1]{inst.Email}[/]");
+            AnsiConsole.Write(table);
+
+
         }
        public void ViewInformation()
         {
-            Console.WriteLine("Name : " + this.Name);
-            Console.WriteLine("Id : " + this.Id);
-            Console.WriteLine("Email : "+this.Email);
-            Console.WriteLine("Salary : " + this.Salary);
-            Console.WriteLine("Specialization : " + this.Specialization);
+            
+            var table = new Table();
+
+            // Add some columns
+            table.AddColumn("[grey58]Name[/]");
+            table.AddColumn(new TableColumn("[grey58]Id[/]").Centered());
+            table.AddColumn(new TableColumn("[grey58]Email[/]").Centered());
+            table.AddColumn(new TableColumn("[grey58]Salary[/]").Centered());
+            table.AddColumn(new TableColumn("[grey58]Specialization[/]").Centered());
+            table.AddRow($"[cyan1]{this.Name}[/]", $"[cyan2]{this.Id}[/]", $"[mediumspringgreen]{this.Email}[/]", $"[springgreen2_1]{this.Salary}[/]", $"[green1]{this.Specialization}[/]");
+            AnsiConsole.Write(table);
+
 
         }
         public void ViewCoursesByInstructor(int instructorId)
@@ -96,52 +112,49 @@ namespace ITI_System
             if (instructor != null)
             {
                 Console.WriteLine($"Courses taught by instructor {instructor.Name}:");
+                var table = new Table();
+
+                // Add some columns
+                table.AddColumn("[grey58]Course Name[/]");
+                table.AddColumn(new TableColumn("[grey58]Course Code[/]").Centered());
+                table.AddColumn(new TableColumn("[grey58]Track Code[/]").Centered());
+               
+
                 foreach (var course in instructor.Courses)
                 {
-                    Console.WriteLine($"Course Name: {course.CourseName}, Course Code: {course.CourseCode}, Track Code: {course.TrackCode}");
+                    table.AddRow($"[cyan1]{course.CourseName}[/]", $"[cyan2]{course.CourseCode}[/]", $"[mediumspringgreen]{course.TrackCode}[/]");
                 }
+                AnsiConsole.Write (table);
             }
             else
             {
                 Console.WriteLine($"Instructor with ID {instructorId} not found.");
             }
         }
-
-
-
         public void ViewTimetable( int id)
         {
-
-           
             List<Timetable> AllTimetable = LoadData<Timetable>("TimetablesData.json"); ;
-
             var instructorTimetables = AllTimetable.Where(t => t.InstructorID == id).ToList();
-
             if (instructorTimetables.Count > 0)
             {
                 Console.WriteLine("Timetable for Instructor " + this.Name + ":");
-                Console.Write("Course Name" + "\t");
-                Console.Write("Course Code" + "\t");
+                var table = new Table();
 
-                Console.Write("Track Name " + "\t");
-                Console.Write("Date" + "\t");
-                Console.Write("From" + "\t");
-                Console.Write("To" + "\t");
-                Console.WriteLine();
+                // Add some columns
+                table.AddColumn("[grey58]Course Name[/]");
+                table.AddColumn(new TableColumn("[grey58]Course Code[/]").Centered());
+                table.AddColumn(new TableColumn("[grey58]Track Name[/]").Centered());
+                table.AddColumn(new TableColumn("[grey58]Instructor Name[/]").Centered());
+                table.AddColumn(new TableColumn("[grey58]Date[/]").Centered());
+                table.AddColumn(new TableColumn("From").Centered());
+                table.AddColumn(new TableColumn("To").Centered());
                 foreach (var timetable in instructorTimetables)
                 {
-
-                    Console.Write(timetable.CourseName + "\t");
-                    Console.Write(timetable.CourseCode + "\t");
-                    Console.Write(timetable.TrackName + "\t");
-                    Console.Write(timetable.Date + "\t");
-                    Console.Write(timetable.From + "\t");
-                    Console.Write(timetable.To + "\t");
-                    Console.WriteLine();
+                    table.AddRow($"[cyan1]{timetable.CourseName}[/]", $"[cyan2]{timetable.CourseCode}[/]", $"[mediumspringgreen]{timetable.TrackName}[/]", $"[springgreen2_1]{timetable.InstructorName}[/]", $"[green1]{timetable.Date}[/]", $"[red]{timetable.From}[/]", $"[red]{timetable.To}[/]");
                 }
+                AnsiConsole.Write(table);
             }
-        
-            }
+        }
         
 
         public void GiveGrade(Student student, Course course, double grade)
@@ -221,12 +234,19 @@ namespace ITI_System
             
             List<Student> students = LoadData<Student>("StudentsData.json"); ;
             {
+                var table = new Table();
+
+                // Add some columns
+                table.AddColumn("[grey58]Student Id[/]");
+                table.AddColumn(new TableColumn("[grey58]Student Name[/]").Centered());
                 var filteredStudents = students.Where(s => s.Track.TrackCode == trackcode).ToList();
                 Console.WriteLine($"Students taught in track :");
                 foreach (var student in filteredStudents)
                 {
-                    Console.WriteLine($"Student ID: {student.Id}, Name: {student.Name}");
+                    table.AddRow($"[cyan1]{student.Id}[/]", $"[cyan2]{student.Name}[/]");
+
                 }
+                AnsiConsole.Write(table);
 
 
 

@@ -5,6 +5,8 @@ using Newtonsoft.Json;
 using myiti;
 using ITI_System;
 using ITI_system;
+using Spectre.Console;
+using System.Xml;
 
 namespace ITI_System
 {
@@ -73,40 +75,40 @@ namespace ITI_System
 
         public void ViewData()
         {
+            string courses = "";
             Student stud = GetLoggedInStudent();
-            Console.WriteLine($"Student ID: {stud.Id}");
-            Console.WriteLine($"Name: {stud.Name}");
-            Console.WriteLine($"Email: {stud.Email}");
-            Console.WriteLine($"Specialization: {stud.Specialization}");
-            Console.WriteLine($"Enrollment Date: {stud.EnrollmentDate}");
-            Console.WriteLine($"Track: {stud.Track.TrackName}");
-            Console.WriteLine("Courses:");
+            var table = new Table();
+
+            // Add some columns
+            table.AddColumn("[grey58]Student Name[/]");
+            table.AddColumn(new TableColumn("[grey58]Student Id[/]").Centered());
+            table.AddColumn(new TableColumn("[grey58]Email[/]").Centered());
+            table.AddColumn(new TableColumn("[grey58]Specialization[/]").Centered());
+            table.AddColumn(new TableColumn("[grey58]Enrollment Date[/]").Centered());
+            table.AddColumn(new TableColumn("Track").Centered());
+            table.AddColumn(new TableColumn("Courses").Centered());
             foreach (var course in stud.Courses)
             {
-                Console.WriteLine($"{course.CourseName} (Code: {course.CourseCode})");
+                courses += $"Name: { course.CourseName} Code: {course.CourseCode} \n";
             }
-            Console.WriteLine();
+            table.AddRow($"[cyan1]{stud.Name}[/]", $"[cyan2]{stud.Id}[/]", $"[mediumspringgreen]{stud.Email}[/]", $"[springgreen2_1]{stud.Specialization}[/]", $"[green1]{stud.EnrollmentDate}[/]", $"[red]{stud.Track.TrackName}[/]", $"[red]{courses}[/]");
+            AnsiConsole.Write(table);
         }
-
         public void ViewTimeTable()
         {
             List<Timetable> timetables = LoadData<Timetable>("TimetablesData.json");
             Console.WriteLine($"Time Table for {Track.TrackName} Track:");
-            
             List<Timetable> studentTimetable = new List<Timetable>();
-
             foreach (var table in timetables)
             {
                 foreach(var course in loggedInStudent.Courses)
                 {
                     if(table.CourseCode == course.CourseCode)
                     {
-                        studentTimetable.Add(table); 
+                        studentTimetable.Add(table);
                     }
                 }
             }
-  
-
             if (studentTimetable.Count > 0)
             {
                 Console.WriteLine($"{"Course",-15}{"Date",-12}{"From",-10}{"To"}");
@@ -129,15 +131,23 @@ namespace ITI_System
             {
                 if(grade.StudentId == loggedInStudent.Id)
                 {
-                    foreach(var course in loggedInStudent.Courses)
+                    var table = new Table();
+
+                    // Add some columns
+                    table.AddColumn("[grey58]Course Name[/]");
+                    table.AddColumn(new TableColumn("[grey58]Grade Number[/]").Centered());
+                    
+
+                    foreach (var course in loggedInStudent.Courses)
                     {
                         if(course.CourseCode == grade.CourseCode)
                         {
-                            Console.WriteLine(course.CourseName + "\t");
-                            Console.WriteLine(grade.GradeNumber);
+                            table.AddRow($"[cyan1]{course.CourseName}[/]", $"[cyan2]{grade.GradeNumber}[/]");
+
 
                         }
                     }
+                    AnsiConsole.Write(table);
                     
                 }
                 else

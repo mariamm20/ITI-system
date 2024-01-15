@@ -2,16 +2,20 @@
 using ITI_System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Spectre.Console;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using Spectre.Console;
+
 
 
 namespace myiti
@@ -84,16 +88,18 @@ namespace myiti
         public void ViewPendingAccounts()
         {
             Console.WriteLine("Data of pending accounts");
-            Console.WriteLine("--------------------------");
+            var table = new Table();
 
+            // Add some columns
+            table.AddColumn("[grey58]Id[/]");
+            table.AddColumn(new TableColumn("[grey58]Name[/]").Centered());
+            table.AddColumn(new TableColumn("[grey58]Email[/]").Centered());
+            table.AddColumn(new TableColumn("[grey58]Role[/]").Centered());
             foreach (var item in Accounts)
             {
-                Console.Write(item.Id + "\t\t");
-                Console.Write(item.Name + "\t\t");
-                Console.Write(item.Email + "\t\t");
-                Console.Write(item.Role + "\t\t");
-                Console.WriteLine();
+                table.AddRow($"[cyan1]{item.Id}[/]", $"[cyan2]{item.Name}[/]", $"[mediumspringgreen]{item.Email}[/]", $"[springgreen2_1]{item.Role}[/]");
             }
+            AnsiConsole.Write(table);
 
         }
         #endregion
@@ -356,28 +362,33 @@ namespace myiti
 
         public void ViewInstructors()
         {
+            var table = new Table();
+
+            // Add some columns
+            table.AddColumn("[grey58]Instructor Id[/]");
+            table.AddColumn(new TableColumn("[grey58]Instructor Name[/]").Centered());
+            table.AddColumn(new TableColumn("[grey58]Email[/]").Centered());
+            table.AddColumn(new TableColumn("[grey58]Password[/]").Centered());
+            table.AddColumn(new TableColumn("[grey58]Specialization[/]").Centered());
+            table.AddColumn(new TableColumn("[grey58]Salary[/]").Centered());
+            table.AddColumn(new TableColumn("[grey58]Tracks[/]").Centered());
+            table.AddColumn(new TableColumn("[grey58]Courses[/]").Centered());
 
             foreach (var instructor in Instructors)
             {
-                Console.Write(instructor.Id + "\t");
-                Console.Write(instructor.Name + "\t");
-                Console.Write(instructor.Email + "\t");
-                Console.Write(instructor.Password + "\t");
-                Console.Write(instructor.Specialization + "\t");
-                Console.Write(instructor.Salary + "\t");
+                string courses = "";
+                string tracks = "";
                 foreach (var track in instructor.Tracks)
                 {
-                    Console.Write(track.TrackName + " ");
-                    Console.WriteLine(track.TrackCode + " ");
+                    tracks = track.TrackName + " ";
                 }
                 foreach (var course in instructor.Courses)
                 {
-                    Console.Write(course.CourseName + " ");
-                    Console.WriteLine(course.CourseCode + " ");
+                    courses= course.CourseName + " ";
                 }
-
-                Console.WriteLine();
+                table.AddRow($"[cyan1]{instructor.Id}[/]", $"[cyan2]{instructor.Name}[/]", $"[mediumspringgreen]{instructor.Email}[/]", $"[springgreen2_1]{instructor.Password}[/]", $"[green1]{instructor.Specialization}[/]", $"[lightgreen_1]{instructor.Salary}[/]", $"[lightgreen]{tracks}[/]", $"[lightgreen]{courses}[/]");
             }
+            AnsiConsole.Write(table);
         }
 
         public bool ViewSpecificInstructor(int id)
@@ -651,24 +662,30 @@ namespace myiti
 
         public void ViewStudents()
         {
+            var table = new Table();
+
+            // Add some columns
+            table.AddColumn("[grey58]Student Id[/]");
+            table.AddColumn(new TableColumn("[grey58]Student Name[/]").Centered());
+            table.AddColumn(new TableColumn("[grey58]Email[/]").Centered());
+            table.AddColumn(new TableColumn("[grey58]Password[/]").Centered());
+            table.AddColumn(new TableColumn("[grey58]Specialization[/]").Centered());
+            table.AddColumn(new TableColumn("[grey58]Track Name[/]").Centered());
+            table.AddColumn(new TableColumn("[grey58]Enrollment Date[/]").Centered());
+            table.AddColumn(new TableColumn("[grey58]Courses[/]").Centered());
 
             foreach (var student in Students)
             {
-                Console.Write(student.Id + "\t");
-                Console.Write(student.Name + "\t");
-                Console.Write(student.Email + "\t");
-                Console.Write(student.Password + "\t");
-                Console.Write(student.Specialization + "\t");
-                Console.Write(student.Track.TrackName + "\t");
-                Console.Write(student.EnrollmentDate + "\t");
+                string courses = "";
 
                 foreach (var course in student.Courses)
                 {
-                    Console.Write(course.CourseName + " ");
+                    courses+= course.CourseName + " ";
                 }
-
-                Console.WriteLine();
+                table.AddRow($"[cyan1]{student.Id}[/]", $"[cyan2]{student.Name}[/]", $"[mediumspringgreen]{student.Email}[/]", $"[springgreen2_1]{student.Password}[/]", $"[green1]{student.Specialization}[/]", $"[lightgreen_1]{student.Track.TrackName}[/]", $"[lightgreen]{student.EnrollmentDate}[/]", $"[lightgreen]{courses}[/]");
             }
+            AnsiConsole.Write(table);
+
         }
 
         public bool ViewSpecificStudent(int id)
@@ -819,11 +836,14 @@ namespace myiti
         #region Track CRUD operations (Done) 
         public void ViewTracks()
         {
+            var table = new Table();
+            table.AddColumn("[grey58]Track Name[/]");
+            table.AddColumn(new TableColumn("[grey58]Track Code[/]").Centered());
             foreach (var item in Tracks)
             {
-                Console.Write(item.TrackName + "\t");
-                Console.WriteLine(item.TrackCode + "\t");
+                table.AddRow($"[cyan1]{item.TrackName}[/]", $"[cyan2]{item.TrackCode}[/]");
             }
+            AnsiConsole.Write(table);
         }
         public bool ViewSpecificTrack(int trackCode)
         {
@@ -930,13 +950,19 @@ namespace myiti
         #region Course CRUD operations 
         public void ViewCourses()
         {
+            var table = new Table();
+
+            // Add some columns
+            table.AddColumn("[grey58]Course Name[/]");
+            table.AddColumn(new TableColumn("[grey58]Course Code[/]").Centered());
+            table.AddColumn(new TableColumn("[grey58]Track Code[/]").Centered());
             foreach (var item in Courses)
             {
-                Console.Write(item.CourseName + "\t\t");
-                Console.Write(item.CourseCode + "\t\t");
-                Console.Write(item.TrackCode + "\t\t");
-                Console.WriteLine();
+                
+                table.AddRow($"[cyan1]{item.CourseName}[/]", $"[cyan2]{item.CourseCode}[/]", $"[mediumspringgreen]{item.TrackCode}[/]");
+
             }
+            AnsiConsole.Write(table);
         }
         public bool ViewSpecificCourse(int CourseCode)
         {
@@ -1058,19 +1084,26 @@ namespace myiti
 
         #region  TimeTable CRUD operations
         public void ViewTimeTable()
-        {
+        {            
+
+            var table = new Table();
+
+            // Add some columns
+            table.AddColumn("[grey58]Course Name[/]");
+            table.AddColumn(new TableColumn("[grey58]Course Code[/]").Centered());
+            table.AddColumn(new TableColumn("[grey58]Track Name[/]").Centered());
+            table.AddColumn(new TableColumn("[grey58]Instructor Name[/]").Centered());
+            table.AddColumn(new TableColumn("[grey58]Date[/]").Centered());
+            table.AddColumn(new TableColumn("From").Centered());
+            table.AddColumn(new TableColumn("To").Centered());
+
             foreach (var timetable in Timetables)
             {
-                Console.Write(timetable.CourseName + "\t");
-                Console.Write(timetable.CourseCode + "\t");
-                Console.Write(timetable.TrackName + "\t");
-                Console.Write(timetable.InstructorName + "\t");
-                Console.Write(timetable.InstructorID + "\t");
-                Console.Write(timetable.Date + "\t");
-                Console.Write(timetable.From + "\t");
-                Console.Write(timetable.To + "\t");
-                Console.WriteLine();
+                table.AddRow($"[cyan1]{timetable.CourseName}[/]", $"[cyan2]{timetable.CourseCode}[/]",$"[mediumspringgreen]{ timetable.TrackName}[/]",$"[springgreen2_1]{timetable.InstructorName}[/]", $"[green1]{timetable.Date}[/]", $"[red]{timetable.From}[/]", $"[red]{timetable.To}[/]");
+
+                // Write centered cell grid contents to Console
             }
+            AnsiConsole.Write(table);
         }
         public bool ViewSpecificTimeTable(int CourseCode,int InstructorID)
         {
@@ -1257,47 +1290,41 @@ namespace myiti
         public bool ViewFeedBack( int InstructorID)
         {
             bool flag = false;
+            var table = new Table();
+            table.AddColumn("[grey58]Student ID[/]");
+            table.AddColumn(new TableColumn("[grey58]Feedback Content[/]").Centered());
+            Console.WriteLine($"Feedbacks for Instructor ID= {InstructorID}");
             foreach (var feedback in Feedbacks)
             {
+                
                 if (feedback.InstructorId == InstructorID)
                 {
-                    Console.WriteLine();
-                    Console.WriteLine($"Feedbacks for Instructor ID= {InstructorID}");
-                    Console.WriteLine("--------------------------------");
-                    Console.Write("Student ID" + "\t");
-                    Console.Write("Content" + "\t");
-                    Console.WriteLine();
-                    Console.Write(feedback.StudentId + "\t");
-                    Console.Write(feedback.ReportText + "\t");
-                   
-                    Console.WriteLine();
+                    table.AddRow($"[cyan1]{feedback.StudentId}[/]", $"[cyan2]{feedback.ReportText}[/]");
+ 
                     flag = true;
-                    break;
+                    
                 }
             }
+            AnsiConsole.Write(table);
             return flag;
         }
         public bool ViewReport(int StudentId)
         {
             bool flag = false;
+            var table = new Table();
+            table.AddColumn("[grey58]Instructor ID[/]");
+            table.AddColumn(new TableColumn("[grey58]Report Content[/]").Centered());
+            Console.WriteLine($"Reports for Student ID= {StudentId}");
             foreach (var report in Reports)
             {
                 if (report.StudentId == StudentId)
                 {
-                    Console.WriteLine();
-                    Console.WriteLine($"Reports for Student ID= {StudentId}");
-                    Console.WriteLine("--------------------------------");
-                    Console.Write("Instructor ID" + "\t");
-                    Console.Write("Content" + "\t");
-                    Console.WriteLine();
-                    Console.Write(report.InstructorId + "\t");
-                    Console.Write(report.ReportText + "\t");
-
-                    Console.WriteLine();
+                    table.AddRow($"[cyan1]{report.InstructorId}[/]", $"[cyan2]{report.ReportText}[/]");
                     flag = true;
-                    break;
+                    
                 }
             }
+            AnsiConsole.Write(table);
             return flag;
         }
         #endregion
