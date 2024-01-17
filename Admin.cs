@@ -105,11 +105,25 @@ namespace myiti
         #endregion
 
         #region Check Existance Of Account
-        public bool CheckExistanceOfAccunt(int id)
+        public bool CheckExistanceOfStudentAccunt(int id)
         {
             foreach (var item in Accounts)
             {
-                if (item.Id == id)
+                if (item.Id == id && item.Role == "student")
+                {
+
+                    return true;
+                }
+
+            }
+            return false;
+
+        }
+        public bool CheckExistanceOfInstructorAccunt(int id)
+        {
+            foreach (var item in Accounts)
+            {
+                if (item.Id == id && item.Role == "instructor")
                 {
 
                     return true;
@@ -327,7 +341,7 @@ namespace myiti
                     instructor.Role = "instructor";
                     instructor.Tracks = new List<Track>();
                     instructor.Courses = new List<Course>();
-                    foreach (var ListTracksEntered in tracksCode)//102,110
+                    foreach (var ListTracksEntered in tracksCode)
                     {
                         foreach (var item in Tracks)
                         {
@@ -376,17 +390,9 @@ namespace myiti
 
             foreach (var instructor in Instructors)
             {
-                string courses = "";
-                string tracks = "";
-                foreach (var track in instructor.Tracks)
-                {
-                    tracks = track.TrackName + " ";
-                }
-                foreach (var course in instructor.Courses)
-                {
-                    courses= course.CourseName + " ";
-                }
-                table.AddRow($"[cyan1]{instructor.Id}[/]", $"[cyan2]{instructor.Name}[/]", $"[mediumspringgreen]{instructor.Email}[/]", $"[springgreen2_1]{instructor.Password}[/]", $"[green1]{instructor.Specialization}[/]", $"[lightgreen_1]{instructor.Salary}[/]", $"[lightgreen]{tracks}[/]", $"[lightgreen]{courses}[/]");
+                
+                table.AddRow($"[cyan1]{instructor.Id}[/]", $"[cyan2]{instructor.Name}[/]", $"[mediumspringgreen]{instructor.Email}[/]", $"[springgreen2_1]{instructor.Password}[/]", $"[green1]{instructor.Specialization}[/]", $"[lightgreen_1]{instructor.Salary}[/]", $"[springgreen2_1]{string.Join("\n ", instructor.Tracks.Select(t => $"{t.TrackCode} - {t.TrackName}"))}[/]", $"[springgreen2_1]{string.Join("\n ", instructor.Courses.Select(t => $"{t.CourseCode} - {t.CourseName}"))}[/]");
+                table.AddEmptyRow();
             }
             AnsiConsole.Write(table);
         }
@@ -402,28 +408,22 @@ namespace myiti
 
                     Console.WriteLine($"Data of Instructor of id {id}");
                     Console.WriteLine("--------------------------------");
-                    for (int i = 0; i < instructorDataToEdit.Length; i++)
-                    {
-                        Console.Write(instructorDataToEdit[i] + "\t");
-                    }
-                    Console.WriteLine();
+                    var table = new Table();
 
-                    Console.Write(instructor.Id + "\t");
-                    Console.Write(instructor.Name + "\t");
-                    Console.Write(instructor.Email + "\t");
-                    Console.Write(instructor.Password + "\t");
-                    Console.Write(instructor.Specialization + "\t");
-                    Console.Write(instructor.Salary + "\t");
-                    foreach (var track in instructor.Tracks)
-                    {
-                        Console.Write(track.TrackName + " ");
-                        Console.WriteLine(track.TrackCode + " ");
-                    }
-                    foreach (var course in instructor.Courses)
-                    {
-                        Console.Write(course.CourseName + " ");
-                        Console.WriteLine(course.CourseCode + " ");
-                    }
+                    // Add some columns
+                    table.AddColumn("[grey58]Id[/]");
+                    table.AddColumn(new TableColumn("[grey58]Name[/]").Centered());
+                    table.AddColumn(new TableColumn("[grey58]Email[/]").Centered());
+                    table.AddColumn(new TableColumn("[grey58]Password[/]").Centered());
+                    table.AddColumn(new TableColumn("[grey58]Specilization[/]").Centered());
+                    table.AddColumn(new TableColumn("[grey58]Salary[/]").Centered());
+                    table.AddColumn(new TableColumn("[grey58]Tracks[/]").Centered());
+                    table.AddColumn(new TableColumn("[grey58]Courses[/]").Centered());
+                   
+                    
+                        table.AddRow($"[cyan1]{instructor.Id}[/]", $"[cyan2]{instructor.Name}[/]", $"[mediumspringgreen]{instructor.Email}[/]", $"[springgreen2_1]{instructor.Password}[/]", $"[springgreen2_1]{instructor.Specialization}[/]", $"[springgreen2_1]{instructor.Salary}[/]", $"[springgreen2_1]{string.Join("\n ", instructor.Tracks.Select(t => $"{t.TrackCode} - {t.TrackName}"))}[/]", $"[springgreen2_1]{string.Join("\n ", instructor.Courses.Select(t => $"{t.CourseCode} - {t.CourseName}"))}[/]");
+                    
+                    AnsiConsole.Write(table);
 
                     Console.WriteLine();
                     flag = true;
@@ -676,13 +676,9 @@ namespace myiti
 
             foreach (var student in Students)
             {
-                string courses = "";
-
-                foreach (var course in student.Courses)
-                {
-                    courses+= course.CourseName + " ";
-                }
-                table.AddRow($"[cyan1]{student.Id}[/]", $"[cyan2]{student.Name}[/]", $"[mediumspringgreen]{student.Email}[/]", $"[springgreen2_1]{student.Password}[/]", $"[green1]{student.Specialization}[/]", $"[lightgreen_1]{student.Track.TrackName}[/]", $"[lightgreen]{student.EnrollmentDate}[/]", $"[lightgreen]{courses}[/]");
+                
+                table.AddRow($"[cyan1]{student.Id}[/]", $"[cyan2]{student.Name}[/]", $"[mediumspringgreen]{student.Email}[/]", $"[springgreen2_1]{student.Password}[/]", $"[green1]{student.Specialization}[/]", $"[lightgreen_1]{student.Track.TrackName}[/]", $"[lightgreen]{student.EnrollmentDate}[/]", $"[springgreen2_1]{string.Join("\n ", student.Courses.Select(t => $"{t.CourseCode} - {t.CourseName}"))}[/]");
+                table.AddEmptyRow();
             }
             AnsiConsole.Write(table);
 
@@ -697,26 +693,22 @@ namespace myiti
                 {
                     string[] studentDataToEdit = { "ID", "Name", "Email", "Password", "Specilization", "Track Name", "Enrollment Date", "Courses" };
 
-                    Console.WriteLine();
-                    Console.WriteLine($"Data of Student of id {id}");
-                    Console.WriteLine("--------------------------------");
-                    for (int i = 0; i < studentDataToEdit.Length; i++)
-                    {
-                        Console.Write(studentDataToEdit[i] + "\t");
-                    }
-                    Console.WriteLine();
-                    Console.Write(student.Id + "\t");
-                    Console.Write(student.Name + "\t");
-                    Console.Write(student.Email + "\t");
-                    Console.Write(student.Password + "\t");
-                    Console.Write(student.Specialization + "\t");
-                    Console.Write(student.Track.TrackName + "\t");
-                    Console.Write(student.EnrollmentDate + "\t");
+                    var table = new Table();
 
-                    foreach (var course in student.Courses)
-                    {
-                        Console.Write(course.CourseName + " ");
-                    }
+                    // Add some columns
+                    table.AddColumn("[grey58]Id[/]");
+                    table.AddColumn(new TableColumn("[grey58]Name[/]").Centered());
+                    table.AddColumn(new TableColumn("[grey58]Email[/]").Centered());
+                    table.AddColumn(new TableColumn("[grey58]Password[/]").Centered());
+                    table.AddColumn(new TableColumn("[grey58]Specilization[/]").Centered());
+                    table.AddColumn(new TableColumn("[grey58]Track[/]").Centered());
+                    table.AddColumn(new TableColumn("[grey58]Courses[/]").Centered());
+
+
+                    table.AddRow($"[cyan1]{student.Id}[/]", $"[cyan2]{student.Name}[/]", $"[mediumspringgreen]{student.Email}[/]", $"[springgreen2_1]{student.Password}[/]", $"[springgreen2_1]{student.Specialization}[/]",  $"[springgreen2_1]{string.Join("\n ", $"{student.Track.TrackCode} - {student.Track.TrackName}")}[/]", $"[springgreen2_1]{string.Join("\n ", student.Courses.Select(t => $"{t.CourseCode} - {t.CourseName}"))}[/]");
+
+                    AnsiConsole.Write(table);
+
 
                     Console.WriteLine();
                     flag = true;
@@ -855,11 +847,13 @@ namespace myiti
                     Console.WriteLine();
                     Console.WriteLine($"Data of Track of code {trackCode}");
                     Console.WriteLine("--------------------------------");
-                    Console.Write("Track Name" + "\t");
-                    Console.Write("Track Code" + "\t");
-                    Console.WriteLine();
-                    Console.Write(track.TrackName + "\t");
-                    Console.Write(track.TrackCode + "\t");
+                    var table = new Table();
+                    table.AddColumn("[grey58]Track Code[/]");
+                    table.AddColumn(new TableColumn("[grey58]Track Name[/]").Centered());
+                    
+                        table.AddRow($"[cyan1]{track.TrackCode}[/]", $"[cyan2]{track.TrackName}[/]");
+                    
+                    AnsiConsole.Write(table);
 
                     Console.WriteLine();
                     flag = true;
@@ -974,13 +968,14 @@ namespace myiti
                     Console.WriteLine();
                     Console.WriteLine($"Data of Course of code {CourseCode}");
                     Console.WriteLine("--------------------------------");
-                    Console.Write("Course Name" + "\t");
-                    Console.Write("Course Code" + "\t");
-                    Console.Write("Track Code" + "\t");
-                    Console.WriteLine();
-                    Console.Write(Course.CourseName + "\t");
-                    Console.Write(Course.CourseCode + "\t");
-                    Console.Write(Course.TrackCode + "\t");
+                    var table = new Table();
+                    table.AddColumn("[grey58]Course Code[/]");
+                    table.AddColumn(new TableColumn("[grey58]Course Name[/]").Centered());
+                    table.AddColumn(new TableColumn("[grey58]Track Code[/]").Centered());
+
+                    table.AddRow($"[cyan1]{Course.CourseCode}[/]", $"[cyan2]{Course.CourseName}[/]", $"[cyan2]{Course.TrackCode}[/]");
+
+                    AnsiConsole.Write(table);
                     Console.WriteLine();
                     flag = true;
                     break;
@@ -1115,23 +1110,24 @@ namespace myiti
                     Console.WriteLine();
                     Console.WriteLine($"Data of TimeTable for CourseCode = {CourseCode} & InstructorID = {InstructorID}");
                     Console.WriteLine("--------------------------------");
-                    Console.Write("Course Name" + "\t");
-                    Console.Write("Course Code" + "\t");
-                    Console.Write("Track Name" + "\t");
-                    Console.Write("Instructor Name" + "\t");
-                    Console.Write("Instructor ID" + "\t");
-                    Console.Write("Date" + "\t");
-                    Console.Write("From" + "\t");
-                    Console.Write("To" + "\t");
-                    Console.WriteLine();
-                    Console.Write(timetable.CourseName + "\t");
-                    Console.Write(timetable.CourseCode + "\t");
-                    Console.Write(timetable.TrackName + "\t");
-                    Console.Write(timetable.InstructorName + "\t");
-                    Console.Write(timetable.InstructorID + "\t");
-                    Console.Write(timetable.Date + "\t");
-                    Console.Write(timetable.From + "\t");
-                    Console.Write(timetable.To + "\t");
+
+                    var table = new Table();
+
+                    // Add some columns
+                    table.AddColumn("[grey58]Id[/]");
+                    table.AddColumn(new TableColumn("[grey58]Course Name[/]").Centered());
+                    table.AddColumn(new TableColumn("[grey58]Couses Code[/]").Centered());
+                    table.AddColumn(new TableColumn("[grey58]Track Name[/]").Centered());
+                    table.AddColumn(new TableColumn("[grey58]Instructor Name[/]").Centered());
+                    table.AddColumn(new TableColumn("[grey58]Instructor ID[/]").Centered());
+                    table.AddColumn(new TableColumn("[grey58]Date[/]").Centered());
+                    table.AddColumn(new TableColumn("[grey58]From[/]").Centered());
+                    table.AddColumn(new TableColumn("[grey58]To[/]").Centered());
+
+                    table.AddRow($"[cyan1]{timetable.CourseName}[/]", $"[cyan2]{timetable.CourseCode}[/]", $"[mediumspringgreen]{timetable.TrackName}[/]", $"[springgreen2_1]{timetable.InstructorName}[/]", $"[springgreen2_1]{timetable.InstructorID}[/]", $"[springgreen2_1]{timetable.Date}[/]", $"[springgreen2_1]{timetable.From}[/]", $"[springgreen2_1]{timetable.To}[/]");
+
+                    AnsiConsole.Write(table);
+
                     Console.WriteLine();
                     flag = true;
                     break;

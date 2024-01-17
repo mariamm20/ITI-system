@@ -1,36 +1,18 @@
 [
   {
-    "Id": 194,
-    "Name": "salma yasser",
-    "Specialization": "backend",
-    "Email": "salma@gmail.com",
-    "Password": "12345678",
-    "Role": "student",
-    "Approvement": false
-  },
-  {
-    "Id": 410,
-    "Name": "Mohamed Hassan",
-    "Specialization": "Data Science",
-    "Email": "mohamed@gmail.com",
+    "Id": 582,
+    "Name": "Gehad Ali",
+    "Specialization": "Senior DevOps",
+    "Email": "gehad@gmail.com",
     "Password": "12345678",
     "Role": "instructor",
     "Approvement": false
   },
   {
-    "Id": 301,
-    "Name": "Adel Shawkt",
-    "Specialization": "senior ghraphic designer",
-    "Email": "adel@gmail.com",
-    "Password": "12345678",
-    "Role": "instructor",
-    "Approvement": false
-  },
-  {
-    "Id": 169,
-    "Name": "Omar Khaled",
-    "Specialization": ".Net",
-    "Email": "omarkhaled@gmail.com",
+    "Id": 672,
+    "Name": "Nadia Ahmed",
+    "Specialization": "Senior UI/UX",
+    "Email": "nadia@gmail.com",
     "Password": "12345678",
     "Role": "instructor",
     "Approvement": false

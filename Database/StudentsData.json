@@ -29,5 +29,98 @@
     "Password": "12345678",
     "Role": "student",
     "Approvement": true
+  },
+  {
+    "Track": {
+      "TrackName": "Web Development",
+      "TrackCode": 101
+    },
+    "Courses": [
+      {
+        "CourseName": "html",
+        "CourseCode": 501,
+        "TrackCode": 101
+      },
+      {
+        "CourseName": "css",
+        "CourseCode": 502,
+        "TrackCode": 101
+      },
+      {
+        "CourseName": "js",
+        "CourseCode": 503,
+        "TrackCode": 101
+      }
+    ],
+    "EnrollmentDate": "01/16/2024",
+    "Id": 611,
+    "Name": "Marwan Emad",
+    "Specialization": "junior software engineer",
+    "Email": "marwan@gmail.com",
+    "Password": "12345678",
+    "Role": "student",
+    "Approvement": true
+  },
+  {
+    "Track": {
+      "TrackName": "Web Development",
+      "TrackCode": 101
+    },
+    "Courses": [
+      {
+        "CourseName": "html",
+        "CourseCode": 501,
+        "TrackCode": 101
+      },
+      {
+        "CourseName": "css",
+        "CourseCode": 502,
+        "TrackCode": 101
+      },
+      {
+        "CourseName": "js",
+        "CourseCode": 503,
+        "TrackCode": 101
+      }
+    ],
+    "EnrollmentDate": "01/16/2024",
+    "Id": 805,
+    "Name": "karma Fadl",
+    "Specialization": "junior front end",
+    "Email": "karma@gmail.com",
+    "Password": "12345678",
+    "Role": "student",
+    "Approvement": true
+  },
+  {
+    "Track": {
+      "TrackName": "Web Development",
+      "TrackCode": 101
+    },
+    "Courses": [
+      {
+        "CourseName": "html",
+        "CourseCode": 501,
+        "TrackCode": 101
+      },
+      {
+        "CourseName": "css",
+        "CourseCode": 502,
+        "TrackCode": 101
+      },
+      {
+        "CourseName": "js",
+        "CourseCode": 503,
+        "TrackCode": 101
+      }
+    ],
+    "EnrollmentDate": "01/17/2024",
+    "Id": 540,
+    "Name": "salma yasser",
+    "Specialization": "frontend developer",
+    "Email": "salma@gmail.com",
+    "Password": "12345678",
+    "Role": "student",
+    "Approvement": true
   }
 ]

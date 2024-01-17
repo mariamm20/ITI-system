@@ -53,7 +53,7 @@ namespace ITI_system
            .Title("[green]Registeration Form[/]\n--------------------\n[blue]Welcome User, please fill the following inforamtion[/]\n-----------------------------------------------------------\n[red]Are you instructor or student ?[/]")
            .PageSize(10)
            .AddChoices(new[] {
-            "1. Instructor", "2. Student", "3. Close the program",
+            "1. Instructor", "2. Student", "0. Return Home",
         }));
             string role = "";
             switch (roleChoice)
@@ -73,6 +73,9 @@ namespace ITI_system
                     DisplayHome();
                     break;
             }
+            Console.WriteLine($"Register as {role}");
+            Console.WriteLine("----------------------");
+            Console.WriteLine();
             Console.Write("Your Name : ");
             string name = Console.ReadLine();
             Console.Write("Your Specialization : ");
@@ -80,8 +83,8 @@ namespace ITI_system
             Console.Write("Your Email : ");
             string email = Console.ReadLine();
             Console.Write("Your Password : "); // Password Masking is needed
-            string password = Console.ReadLine();
-
+            string password = GetMaskedPassword();
+            Console.WriteLine();
             Account account1 = new Account();
             bool result = account1.CreateAccount(name, specialization, email, password, role);
             if (result)
@@ -127,6 +130,7 @@ namespace ITI_system
             {
                 case "1. Login as Admin":
                     Console.WriteLine("Welcome Admin");
+                    Console.WriteLine("-----------------");                    
                     Console.WriteLine();
                     int counter = 3;
 
@@ -135,7 +139,8 @@ namespace ITI_system
                         Console.Write("Your Email : ");
                         string email = Console.ReadLine().ToLower().Trim();
                         Console.Write("Your Password : "); // Password Masking is needed
-                        string password = Console.ReadLine().ToLower().Trim();
+                        string password = GetMaskedPassword();
+                        Console.WriteLine();
                         Admin admin = new Admin();
 
                         bool LoginResult = admin.Login(email, password);
@@ -186,7 +191,7 @@ namespace ITI_system
                                             Console.WriteLine();
                                             Console.Write("Instructor ID : ");
                                             int id = int.Parse(Console.ReadLine());
-                                            bool ResultOfExistance = admin.CheckExistanceOfAccunt(id);
+                                            bool ResultOfExistance = admin.CheckExistanceOfInstructorAccunt(id);
                                             if (ResultOfExistance)
                                             {
                                                 Console.Write("Set Instructor Salary : ");
@@ -235,12 +240,23 @@ namespace ITI_system
                                             Console.WriteLine();
                                             Console.Write("Student ID : ");
                                             int studId = int.Parse(Console.ReadLine());
-                                            Console.Write("Set Student Track Code : ");
-                                            int trackCode = int.Parse(Console.ReadLine());
+                                            bool ResultOfExistanceStudent = admin.CheckExistanceOfStudentAccunt(studId);
+                                            if (ResultOfExistanceStudent)
+                                            {
+                                                Console.Write("Set Student Track Code : ");
+                                                int trackCode = int.Parse(Console.ReadLine());
 
-                                            admin.ApproveAccount(studId, trackCode);
-                                            PressAnyKeyToManageConsoleScreen("return home");
-                                            goto AccountManagementHome;
+                                                admin.ApproveAccount(studId, trackCode);
+                                                PressAnyKeyToManageConsoleScreen("return home");
+                                                goto AccountManagementHome;
+                                            }
+                                            else
+                                            {
+                                                Console.WriteLine("ID of student not exists");
+                                                PressAnyKeyToManageConsoleScreen("return home");
+                                                goto AccountManagementHome;
+                                            }
+                                                
                                         case "4. Return Home":
                                             goto adminhome;
                                         default:
@@ -283,7 +299,8 @@ namespace ITI_system
                                             Console.Write("Instructor Email : ");
                                             string instEmail = Console.ReadLine();
                                             Console.Write("Set Instructor Password : ");
-                                            string instPassword = Console.ReadLine();
+                                            string instPassword = GetMaskedPassword();
+                                            Console.WriteLine();
                                             Console.Write("Instructor Salary : ");
                                             int instSalary = int.Parse(Console.ReadLine());
                                             Console.Write("Instructor Specilization : ");
@@ -433,8 +450,8 @@ namespace ITI_system
                                             else
                                             {
                                                 Console.WriteLine("Invalid ID ");
-                                                PressAnyKeyToManageConsoleScreen("try another id");
-                                                goto EditInstructor;
+                                                PressAnyKeyToManageConsoleScreen("return home");
+                                                goto InstructorManagementHome;
                                             }
                                             break;
                                         case "4. Delete Instructor":
@@ -455,6 +472,10 @@ namespace ITI_system
                                                     if (delResult == false)
                                                     {
                                                         Console.WriteLine("Invalid Id");
+                                                        Console.WriteLine("Press any key to return home");
+                                                        Console.ReadKey();
+                                                        goto InstructorManagementHome;
+
                                                     }
                                                     else
                                                     {
@@ -463,7 +484,7 @@ namespace ITI_system
                                                         Console.ReadKey();
                                                         goto InstructorManagementHome;
                                                     }
-                                                    break;
+                                                    
                                             }
                                             break;
                                         case "5. Return Home":
@@ -508,7 +529,8 @@ namespace ITI_system
                                             Console.Write("Student Email : ");
                                             string studEmail = Console.ReadLine();
                                             Console.Write("Set Student Password : ");
-                                            string studPassword = Console.ReadLine();
+                                            string studPassword = GetMaskedPassword();
+                                            Console.WriteLine();
                                             Console.Write("Student Specilization : ");
                                             string studSpecialization = Console.ReadLine();
                                             Console.Write("Student Track Code : ");
@@ -793,6 +815,9 @@ namespace ITI_system
                                                     if (delResult == false)
                                                     {
                                                         Console.WriteLine("Invalid Id");
+                                                        Console.WriteLine("Press any key to return home");
+                                                        Console.ReadKey();
+                                                        goto TrackManagementHome;
                                                     }
                                                     else
                                                     {
@@ -824,7 +849,7 @@ namespace ITI_system
                                     .Title("[green]Courses Management[/]\n--------------------")
                                     .PageSize(10)
                                     .AddChoices(new[] {
-                                    "1. View Courses", "2. Add Course","3. Edit Course","4. Delete Course","5. Admin Home",
+                                    "1. View Courses", "2. Add Course","3. Edit Course","4. Delete Course","5. Return Home",
                                         }));
                                     switch (coursesChoice)
                                     {
@@ -966,6 +991,9 @@ namespace ITI_system
                                                     if (delResult == false)
                                                     {
                                                         Console.WriteLine("Invalid Course Code");
+                                                        Console.WriteLine("Press any key to return home");
+                                                        Console.ReadKey();
+                                                        goto CourseManagementHome;
                                                     }
                                                     else
                                                     {
@@ -978,7 +1006,7 @@ namespace ITI_system
                                                     break;
                                             }
                                             break;
-                                        case "5. Admin Home":
+                                        case "5. Return Home":
                                             goto adminhome;
                                     }
                                     break;
@@ -994,7 +1022,7 @@ namespace ITI_system
                                    .Title("[green]Timetables Management[/]\n--------------------")
                                    .PageSize(10)
                                    .AddChoices(new[] {
-                                    "1. View Timetable", "2. Add Timetable","3. Edit Timetable","4. Delete Timetable","5. Admin Home",
+                                    "1. View Timetable", "2. Add Timetable","3. Edit Timetable","4. Delete Timetable","0. Return Home",
                                        }));
                                     switch (timetableChoice)
                                     {
@@ -1156,7 +1184,7 @@ namespace ITI_system
                                             {
                                                 Console.WriteLine("Invalid Code ");
                                                 PressAnyKeyToManageConsoleScreen("try another code");
-                                                goto EditTimeTable;
+                                                goto TimetablesManagementHome;
                                             }
                                             break;
                                         case "4. Delete Timetable":
@@ -1191,7 +1219,7 @@ namespace ITI_system
                                                     break;
                                             }
                                             break;
-                                        case "5. Admin Home":
+                                        case "0. Return Home":
                                             goto adminhome;
                                     }
                                     break;
@@ -1205,7 +1233,7 @@ namespace ITI_system
                                    .Title("[green]Timetables Management[/]\n--------------------")
                                    .PageSize(10)
                                    .AddChoices(new[] {
-                                    "1. View Feedback For instructor", "2. View Reports For student ","3. Admin Home",
+                                    "1. View Feedback For instructor", "2. View Reports For student ","3. Return Home",
                                        }));
 
                                     switch (feedbackChoice)
@@ -1224,7 +1252,7 @@ namespace ITI_system
                                             admin.ViewReport(studentId);
                                             PressAnyKeyToManageConsoleScreen("return home");
                                             goto FeedbackManagementHome;
-                                        case "3. Admin Home":
+                                        case "3. Return Home":
                                             goto adminhome;
 
                                     }
@@ -1256,6 +1284,7 @@ namespace ITI_system
                 // Instructor Implementation
                 case "2. Login as Instructor":
                     Console.WriteLine("Welcome Instructor");
+                    Console.WriteLine("-------------------");
                     Console.WriteLine();
                     int counter1 = 3;
                     
@@ -1264,7 +1293,8 @@ namespace ITI_system
                         Console.Write("Your Email : ");
                         string email = Console.ReadLine().ToLower().Trim();
                         Console.Write("Your Password : "); // Password Masking is needed
-                        string password = Console.ReadLine().ToLower().Trim();
+                        string password = GetMaskedPassword();
+                        Console.WriteLine();
                         Instructor InstructorAccount = new Instructor();
                         Instructor holder;
 
@@ -1404,6 +1434,7 @@ namespace ITI_system
                 // Student Implementation
                 case "3. Login as Student":
                     Console.WriteLine("Welcome Student");
+                    Console.WriteLine("-----------------");
                     Console.WriteLine();
                     int counter2 = 3;
                     while (counter2 > 0)
@@ -1411,7 +1442,8 @@ namespace ITI_system
                         Console.Write("Your Email : ");
                         string email = Console.ReadLine().ToLower().Trim();
                         Console.Write("Your Password : "); // Password Masking is needed
-                        string password = Console.ReadLine().ToLower().Trim();
+                        string password = GetMaskedPassword();
+                        Console.WriteLine();
                         Student account1 = new Student();
                         Student holder;
                         holder = account1.Login(email, password);
@@ -1494,7 +1526,36 @@ namespace ITI_system
             }
 
         }
-        static int GetUserChoice()
+
+        static string GetMaskedPassword()
+        {
+            string password = "";
+            ConsoleKeyInfo key;
+
+            do
+            {
+                key = Console.ReadKey(true);
+
+                // Check if the key is a valid input (excluding Enter key)
+                if (key.Key != ConsoleKey.Enter && key.Key != ConsoleKey.Backspace)
+                {
+                    // Append the pressed key to the password
+                    password += key.KeyChar;
+                    Console.Write("*"); // Display a masking character
+                }
+                else if (key.Key == ConsoleKey.Backspace && password.Length > 0)
+                {
+                    // Handle backspace - remove the last character from the password
+                    password = password.Remove(password.Length - 1);
+                    Console.Write("\b \b"); // Erase the last character on the console
+                }
+
+            } while (key.Key != ConsoleKey.Enter);
+
+            return password;
+        }
+    
+    static int GetUserChoice()
         {
             Console.WriteLine();
             Console.Write("Enter your choice: ");

@@ -127,5 +127,93 @@
     "Password": "12345678",
     "Role": "instructor",
     "Approvement": true
+  },
+  {
+    "Salary": 9000,
+    "Courses": [
+      {
+        "CourseName": "html",
+        "CourseCode": 501,
+        "TrackCode": 101
+      },
+      {
+        "CourseName": "css",
+        "CourseCode": 502,
+        "TrackCode": 101
+      },
+      {
+        "CourseName": "js",
+        "CourseCode": 503,
+        "TrackCode": 101
+      }
+    ],
+    "Tracks": [
+      {
+        "TrackName": "Web Development",
+        "TrackCode": 101
+      }
+    ],
+    "Id": 410,
+    "Name": "Mohamed Hassan",
+    "Specialization": "Data Science",
+    "Email": "mohamed@gmail.com",
+    "Password": "12345678",
+    "Role": "instructor",
+    "Approvement": true
+  },
+  {
+    "Salary": 12000,
+    "Courses": [
+      {
+        "CourseName": "js",
+        "CourseCode": 503,
+        "TrackCode": 101
+      },
+      {
+        "CourseName": "a+",
+        "CourseCode": 601,
+        "TrackCode": 102
+      }
+    ],
+    "Tracks": [
+      {
+        "TrackName": "Web Development",
+        "TrackCode": 101
+      },
+      {
+        "TrackName": "Network",
+        "TrackCode": 102
+      }
+    ],
+    "Id": 212,
+    "Name": "Mai Adel",
+    "Specialization": "backend developer",
+    "Email": "mai@gmail.com",
+    "Password": "12345678",
+    "Role": "instructor",
+    "Approvement": true
+  },
+  {
+    "Salary": 8400,
+    "Courses": [
+      {
+        "CourseName": "css",
+        "CourseCode": 502,
+        "TrackCode": 101
+      }
+    ],
+    "Tracks": [
+      {
+        "TrackName": "Web Development",
+        "TrackCode": 101
+      }
+    ],
+    "Id": 456,
+    "Name": "Marwa omar",
+    "Specialization": "backend",
+    "Email": "mora@gmail.com",
+    "Password": "123456789",
+    "Role": "instructor",
+    "Approvement": true
   }
 ]
